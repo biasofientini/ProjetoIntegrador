@@ -1,4 +1,4 @@
-package com.ecoomerce.lifeshop;
+package com.ecommerce.lifeshop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

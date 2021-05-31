@@ -1,4 +1,4 @@
-package com.ecoomerce.lifeshop;
+package com.ecommerce.lifeshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
