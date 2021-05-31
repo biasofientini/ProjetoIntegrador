@@ -28,14 +28,14 @@ public class Produto {
 	
 	private int estoque;
 	
-	private String url_produto;
+	private String urlProduto;
 
 	//URL Produto
 	public String getUrl_produto() {
-		return url_produto;
+		return urlProduto;
 	}
 	public void setUrl_produto(String url_produto) {
-		this.url_produto = url_produto;
+		this.urlProduto = url_produto;
 	}
 	
 	//Id
