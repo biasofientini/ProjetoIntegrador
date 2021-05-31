@@ -31,10 +31,10 @@ public class Produto {
 	private String urlProduto;
 
 	//URL Produto
-	public String getUrl_produto() {
+	public String getUrlProduto() {
 		return urlProduto;
 	}
-	public void setUrl_produto(String url_produto) {
+	public void setUrlProduto(String url_produto) {
 		this.urlProduto = url_produto;
 	}
 	
