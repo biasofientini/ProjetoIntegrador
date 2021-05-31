@@ -34,8 +34,8 @@ public class Produto {
 	public String getUrlProduto() {
 		return urlProduto;
 	}
-	public void setUrlProduto(String url_produto) {
-		this.urlProduto = url_produto;
+	public void setUrlProduto(String urlProduto) {
+		this.urlProduto = urlProduto;
 	}
 	
 	//Id
