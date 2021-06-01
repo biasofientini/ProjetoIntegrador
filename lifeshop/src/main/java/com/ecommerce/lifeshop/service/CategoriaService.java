@@ -19,5 +19,13 @@ public class CategoriaService {
 	public Optional<Categoria> findById(Long id) {
 		return repository.findById(id);
 	}
-	
+
+
+	public Categoria save(Categoria categoria) {
+
+		return repository.save(categoria);
+	}
+	 public void delete (Long id) {
+		 repository.deleteById(id);
+	 }
 }
