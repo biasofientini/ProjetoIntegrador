@@ -1,6 +1,6 @@
 package com.ecommerce.lifeshop.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,18 +26,25 @@ public class CategoriaController {
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Long id) {
-		Optional<Categoria> opt = service.findById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(opt.get());
+		return service.findCategoriaById(id);   
 	}
+	
+	@GetMapping("/descricao/{descricao}")
+	public ResponseEntity<List<Categoria>> getCategoriaByDescricao(@PathVariable String descricao){
+		return service.findCategoriaByDescricao(descricao);
+	}
+	
 	@PostMapping ("/salvar")
 	public ResponseEntity<Categoria> post(@RequestBody Categoria categoria) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(categoria));
 
 	}
+	
 	@PutMapping("/atualizar")
 	public ResponseEntity<Categoria> put(@RequestBody Categoria categoria){
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(categoria));
 	}
+	
 	@DeleteMapping ("/delete/{id}")
 	public void delete(@PathVariable Long id ) {
 	service.delete(id);
