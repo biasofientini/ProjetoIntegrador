@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.lifeshop.model.Categoria;
 import com.ecommerce.lifeshop.service.CategoriaService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
@@ -40,7 +42,7 @@ public class CategoriaController {
 	}
 	
 	@PostMapping ("/salvar")
-	public ResponseEntity<Categoria> post(@RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> post(@Valid @RequestBody Categoria categoria) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(categoria));
 
 	}
@@ -51,7 +53,7 @@ public class CategoriaController {
 	}
 	
 	@DeleteMapping ("/delete/{id}")
-	public void delete(@PathVariable Long id ) {
+	public void delete(@Valid @PathVariable Long id ) {
 	service.delete(id);
 	}
 

@@ -41,7 +41,7 @@ public class UsuarioController {
 	
 	@Valid
 	@PostMapping("/salvar")
-	public ResponseEntity<Usuario> post(@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario){
 		return ResponseEntity.status(201).body(service.save(usuario));
 	}
 	
@@ -51,7 +51,7 @@ public class UsuarioController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void delete(@PathVariable Long id) {
+	public void delete(@Valid @PathVariable Long id) {
 		service.delete(id);
 	}
 	
