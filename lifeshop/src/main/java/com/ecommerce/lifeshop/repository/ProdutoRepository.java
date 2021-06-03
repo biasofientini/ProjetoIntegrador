@@ -10,6 +10,6 @@ import com.ecommerce.lifeshop.model.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	public List<Produto> findByNomeContainingIgnoreCase(String nome);
-	public Optional<List<Produto>> findAllByDescricaoContainingIgnoreCase(String descricao);
+	public List<Produto> findAllByDescricaoContainingIgnoreCase(String descricao);
 
 }

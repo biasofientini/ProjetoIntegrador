@@ -24,6 +24,11 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaService service;
 
+	@GetMapping("/todas")
+	public ResponseEntity<List<Categoria>> getAllCategoria(){
+		return service.findAllCategoria();
+	}
+	
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Long id) {
 		return service.findCategoriaById(id);   

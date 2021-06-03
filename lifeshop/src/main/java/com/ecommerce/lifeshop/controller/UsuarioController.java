@@ -19,7 +19,7 @@ import com.ecommerce.lifeshop.model.Usuario;
 import com.ecommerce.lifeshop.service.UsuarioService;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
 	@Autowired

@@ -2,6 +2,7 @@ package com.ecommerce.lifeshop.service;
 
 import com.ecommerce.lifeshop.model.Categoria;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,16 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repository;
 
+	//trazer todos
+	public ResponseEntity<List<Categoria>> findAllCategoria(){
+		List<Categoria> categorias = repository.findAll();
+		if(categorias.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(categorias);
+		}
+	}
+	
 	//trazer por id
 	public ResponseEntity<Categoria> findCategoriaById(Long id) {
 		return repository.findById(id)
@@ -36,11 +47,11 @@ public class CategoriaService {
 	 
 	 //trazer por descricao
 	 public ResponseEntity<List<Categoria>> findCategoriaByDescricao(String descricao){
-		 Optional<List<Categoria>> categorias = repository.findAllByDescricaoContainingIgnoreCase(descricao);
+		 List<Categoria> categorias = repository.findAllByDescricaoContainingIgnoreCase(descricao);
 		 if(!categorias.isEmpty()) {
-			 return ResponseEntity.status(302).body(categorias.get());
+			 return ResponseEntity.status(302).body(categorias);
 		 } else {
-		 return ResponseEntity.status(204).build();
+		 return ResponseEntity.status(404).build();
 		 }
 	 }
 }

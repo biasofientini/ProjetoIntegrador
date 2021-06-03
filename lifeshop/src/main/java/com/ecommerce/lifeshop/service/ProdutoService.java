@@ -16,6 +16,15 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository repository;
 
+	//trazer todos
+	public ResponseEntity<List<Produto>> findAllProduto(){
+		List<Produto> produtos = repository.findAll();
+		if(produtos.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(produtos);
+		}
+	}
 	//trazer por id
 	public ResponseEntity<Produto> findProdutoById(Long id) {
 		return repository.findById(id)
@@ -35,9 +44,9 @@ public class ProdutoService {
 	
 	 //trazer por descricao
 	public ResponseEntity<List<Produto>> findProdutoByDescricao(String descricao){
-		Optional<List<Produto>> categorias = repository.findAllByDescricaoContainingIgnoreCase(descricao);
-		if(!categorias.isEmpty()) {
-			return ResponseEntity.status(302).body(categorias.get());
+		List<Produto> produtos = repository.findAllByDescricaoContainingIgnoreCase(descricao);
+		if(!produtos.isEmpty()) {
+			return ResponseEntity.status(302).body(produtos);
 		} else {
 		return ResponseEntity.status(204).build();
 		}
