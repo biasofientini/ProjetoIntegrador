@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.ecommerce.lifeshop.model.Produto;
 import com.ecommerce.lifeshop.repository.ProdutoRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProdutoService { 
 	
 	@Autowired

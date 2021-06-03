@@ -18,7 +18,7 @@ import com.ecommerce.lifeshop.model.Categoria;
 import com.ecommerce.lifeshop.service.CategoriaService;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 public class CategoriaController {
 	
 	@Autowired

@@ -22,8 +22,7 @@ public class Produto {
 	
 	@Size(max = 255, message = "Erro tamanho descricao")
 	private String descricao;
-	
-	@NotNull
+
 	private float preco;
 	
 	private int estoque;
