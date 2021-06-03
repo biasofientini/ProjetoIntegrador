@@ -16,6 +16,11 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService service;
 	
+	@GetMapping("/todos")
+	public ResponseEntity<List<Produto>> getAllProduto(){
+		return service.findAllProduto();
+	}
+	
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Produto> findById(@PathVariable Long id) {
 		return service.findProdutoById(id);

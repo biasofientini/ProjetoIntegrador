@@ -18,7 +18,7 @@ public class UsuarioService {
 	//trazer todos
 	public ResponseEntity<List<Usuario>> findAllUsuario(){
 		List<Usuario> usuarios = repository.findAll();
-		if(!usuarios.isEmpty()) {
+		if(usuarios.isEmpty()) {
 			return ResponseEntity.status(204).build();
 		} else {
 			return ResponseEntity.status(200).body(usuarios);
