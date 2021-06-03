@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.ecommerce.lifeshop.service.ProdutoService;
 import com.ecommerce.lifeshop.model.Produto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -30,9 +32,9 @@ public class ProdutoController {
 	public ResponseEntity<List<Produto>> getProdutoByDescricao(@PathVariable String descricao){
 		return service.findProdutoByDescricao(descricao);
 	}
-	
+
 	@PostMapping("/salvar")
-	public ResponseEntity<Produto> post(@RequestBody Produto produto) {
+	public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(produto));
 	}
 	
@@ -40,9 +42,9 @@ public class ProdutoController {
 	public ResponseEntity<Produto> put(@RequestBody Produto produto) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.save(produto));
 	}
-	
+
 	@DeleteMapping ("/delete/{id}")
-	public void delete(@PathVariable Long id ) {
+	public void delete(@Valid @PathVariable Long id ) {
 	service.delete(id);
 	}
 	
