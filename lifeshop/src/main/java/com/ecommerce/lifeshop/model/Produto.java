@@ -35,9 +35,14 @@ public class Produto {
 	private String urlProduto;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_categoria") 
+	@JoinColumn(name = "fk_categoria")
 	@JsonIgnoreProperties("produtos")
 	private Categoria categoria;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_usuario")
+	@JsonIgnoreProperties("usuario")
+	private Usuario usuario;
 	
 	//URL Produto
 	public String getUrlProduto() {
@@ -98,6 +103,12 @@ public class Produto {
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	
