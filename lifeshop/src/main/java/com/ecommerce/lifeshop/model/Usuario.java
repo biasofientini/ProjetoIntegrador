@@ -1,5 +1,6 @@
 package com.ecommerce.lifeshop.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,96 +19,91 @@ import com.sun.istack.NotNull;
 @Table(name = "tb_usuario")
 public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Size (min = 5, max = 45, message = "Erro tamanho nome usuário")
+	private String nome;
+	
+	@Size ()
+	private String email;
+	
+	@Size (min = 8, message = "Erro tamanho senha usuário")
+	private String senha;
+	
+	@NotNull
+	private String endereco;
+	
+	@Size(min = 8, max= 8, message = "Erro tamanho cep usuário")
+	private String cep;
+	
+	@OneToMany(mappedBy = "usuario", cascade= CascadeType.ALL)
+	@JsonIgnoreProperties("usuario")
+	private List<Produto> produtos = new ArrayList<>();
 
-    @NotBlank
-    @Size(min = 5, max = 45, message = "Erro tamanho nome usuário")
-    private String nome;
+	//Id
+	public Long getId() {
+		return id;
+	}
 
-    @NotBlank
-    private String username;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @NotBlank
-    private String email;
+	//Nome
+	public String getNome() {
+		return nome;
+	}
 
-    @NotBlank
-    @Size(min = 8, message = "Erro tamanho senha usuário")
-    private String senha;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    @NotNull
-    private String endereco;
+	//Email
+	public String getEmail() {
+		return email;
+	}
 
-    @NotBlank
-    @Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
-    private String cep;
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-//    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties("usuario")
-//    private List<Produto> produtos;
+	//Senha
+	public String getSenha() {
+		return senha;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	//Endereço
+	public String getEndereco() {
+		return endereco;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	//CEP
+	public String getCep() {
+		return cep;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	
+	//para relacionamento com a tabela produtos
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
 
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
 }

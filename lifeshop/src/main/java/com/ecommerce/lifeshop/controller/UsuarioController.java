@@ -46,13 +46,13 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("/atualizar")
-	public ResponseEntity<Usuario> put(@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario){
 		return ResponseEntity.status(200).body(service.save(usuario));
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void delete(@Valid @PathVariable Long id) {
-		service.delete(id);
+	public ResponseEntity<Usuario> delete(@Valid @PathVariable Long id) {
+		return service.delete(id);
 	}
 	
 }

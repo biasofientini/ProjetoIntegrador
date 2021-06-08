@@ -38,11 +38,12 @@ public class Produto {
 	@JoinColumn(name = "fk_categoria")
 	@JsonIgnoreProperties("produtos")
 	private Categoria categoria;
-	
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "fk_usuario")
-//	@JsonIgnoreProperties("usuario")
-//	private Usuario usuario;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_usuario")
+	@JsonIgnoreProperties("produtos")
+	private Usuario usuario;
+
 	
 	//URL Produto
 	public String getUrlProduto() {
@@ -94,16 +95,21 @@ public class Produto {
 	public int getEstoque() {
 		return estoque;
 	}
-
+	
 	public void setEstoque(int estoque) {
 		this.estoque = estoque;
 	}
+	
+	
+	//Para relacionamento com a tabela categoria
 	public Categoria getCategoria() {
 		return categoria;
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	
+	//Para relacionamento com a tabela produto
 	public Usuario getUsuario() {
 		return usuario;
 	}
