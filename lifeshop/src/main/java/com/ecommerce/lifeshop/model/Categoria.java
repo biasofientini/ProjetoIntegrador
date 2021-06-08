@@ -1,5 +1,6 @@
 package com.ecommerce.lifeshop.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,7 +34,7 @@ public class Categoria {
 	
 	@OneToMany(mappedBy= "categoria",cascade= CascadeType.ALL )
 	@JsonIgnoreProperties("categoria")
-	private List<Produto> produtos;
+	private List<Produto> produtos = new ArrayList<>();
 	
 	public Long getId() {
 		return id;

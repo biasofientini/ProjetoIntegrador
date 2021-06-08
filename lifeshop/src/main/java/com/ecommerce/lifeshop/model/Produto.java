@@ -41,7 +41,7 @@ public class Produto {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_usuario")
-	@JsonIgnoreProperties("usuario")
+	@JsonIgnoreProperties("produtos")
 	private Usuario usuario;
 	
 	//URL Produto
@@ -94,16 +94,21 @@ public class Produto {
 	public int getEstoque() {
 		return estoque;
 	}
-
+	
 	public void setEstoque(int estoque) {
 		this.estoque = estoque;
 	}
+	
+	
+	//Para relacionamento com a tabela categoria
 	public Categoria getCategoria() {
 		return categoria;
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	
+	//Para relacionamento com a tabela produto
 	public Usuario getUsuario() {
 		return usuario;
 	}

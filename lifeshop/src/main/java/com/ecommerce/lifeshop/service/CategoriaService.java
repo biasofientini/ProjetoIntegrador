@@ -35,16 +35,6 @@ public class CategoriaService {
 				.orElse(ResponseEntity.status(404).build());
 	}
 
-	//salvar categoria
-	public Categoria save(Categoria categoria) {
-		return repository.save(categoria);
-	}
-	
-	//deletar por id
-	 public void delete (Long id) {
-		 repository.deleteById(id);
-	 }
-	 
 	 //trazer por descricao
 	 public ResponseEntity<List<Categoria>> findCategoriaByDescricao(String descricao){
 		 List<Categoria> categorias = repository.findAllByDescricaoContainingIgnoreCase(descricao);
@@ -52,6 +42,40 @@ public class CategoriaService {
 			 return ResponseEntity.status(302).body(categorias);
 		 } else {
 		 return ResponseEntity.status(404).build();
+		 }
+	 }
+	 
+	 //salvar nova categoria
+	 public ResponseEntity<Categoria> createCategoria(String nome, Categoria categoria){
+		 if(repository.findByNomeContainingIgnoreCase(nome).isPresent() || nome.isEmpty()) {
+			 return ResponseEntity.status(400).build();
+		 } else {
+			 return ResponseEntity.status(201).body(repository.save(categoria));
+		 }
+	 }
+	 
+	 //atualizar
+	 public ResponseEntity<Categoria> updateCategoria(Long id, Categoria categoria){
+		 if(repository.findById(id).isPresent()) {
+			 return ResponseEntity.status(200).body(repository.save(categoria));
+		 } else {
+			 return ResponseEntity.status(400).build();
+		 }
+	 }
+	 
+	/*/deletar por id
+	 public void delete(Long id) {
+		 repository.deleteById(id);
+	 }*/
+	 
+	 //deletar por id
+	 public ResponseEntity<Categoria> delete(Long id){
+		 Optional<Categoria> catId = repository.findById(id);
+		 if(catId.isEmpty()) {
+			 return ResponseEntity.status(404).build();
+		 } else {
+			 repository.deleteById(id);
+			 return ResponseEntity.status(200).build();
 		 }
 	 }
 }

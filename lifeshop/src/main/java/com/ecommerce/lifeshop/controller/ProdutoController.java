@@ -39,14 +39,12 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/atualizar")
-	public ResponseEntity<Produto> put(@RequestBody Produto produto) {
-		return ResponseEntity.status(HttpStatus.OK).body(service.save(produto));
+	public ResponseEntity<Produto> put(@RequestBody Produto produto){
+		return service.updateProduto(produto.getId(), produto);	
 	}
 
 	@DeleteMapping ("/delete/{id}")
-	public void delete(@Valid @PathVariable Long id ) {
-	service.delete(id);
+	public ResponseEntity<Produto> delete(@Valid @PathVariable Long id ) {
+		return service.delete(id);
 	}
-	
-
 }

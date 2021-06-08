@@ -3,7 +3,6 @@ package com.ecommerce.lifeshop.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,20 +40,20 @@ public class CategoriaController {
 		return service.findCategoriaByDescricao(descricao);
 	}
 	
-	@PostMapping ("/salvar")
-	public ResponseEntity<Categoria> post(@Valid @RequestBody Categoria categoria) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(categoria));
-
+	@PostMapping("/salvar")
+	public ResponseEntity<Categoria> post(@Valid @RequestBody Categoria categoria){
+		return service.createCategoria(categoria.getNome(), categoria);
 	}
 	
+	
 	@PutMapping("/atualizar")
-	public ResponseEntity<Categoria> put(@RequestBody Categoria categoria){
-		return ResponseEntity.status(HttpStatus.OK).body(service.save(categoria));
+	public ResponseEntity<Categoria> put(@Valid @RequestBody Categoria categoria){
+		return service.updateCategoria(categoria.getId(), categoria);
 	}
 	
 	@DeleteMapping ("/delete/{id}")
-	public void delete(@Valid @PathVariable Long id ) {
-	service.delete(id);
+	public ResponseEntity<Categoria> delete(@Valid @PathVariable Long id ) {
+		return service.delete(id);
 	}
 
 }
