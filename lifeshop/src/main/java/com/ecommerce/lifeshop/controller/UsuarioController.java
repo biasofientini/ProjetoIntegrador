@@ -1,10 +1,13 @@
 package com.ecommerce.lifeshop.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.ecommerce.lifeshop.model.UsuarioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +41,16 @@ public class UsuarioController {
 	public ResponseEntity<List<Usuario>> getUsuarioByNome(@PathVariable String nome){
 		return service.findUsuarioByNome(nome);
 	}
-	
-	@Valid
-	@PostMapping("/salvar")
-	public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario){
-		return ResponseEntity.status(201).body(service.save(usuario));
+
+	@PostMapping("/cadastro")
+	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.CadastroUsuario(usuario));
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<UsuarioLogin> logar (@RequestBody Optional<UsuarioLogin> usuario) {
+		return service.LogarUsuario(usuario).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	
 	@PutMapping("/atualizar")

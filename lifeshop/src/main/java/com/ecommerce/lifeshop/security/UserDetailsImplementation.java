@@ -10,11 +10,11 @@ public class UserDetailsImplementation implements UserDetails {
 
     private static final long serialversionUIDLONG = 1L;
 
-    private String username;
+    private String email;
     private String password;
 
     public UserDetailsImplementation(Usuario usuario) {
-        this.username = usuario.getUsername();
+        this.email = usuario.getEmail();
         this.password = usuario.getSenha();
     }
 
@@ -33,7 +33,7 @@ public class UserDetailsImplementation implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
