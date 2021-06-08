@@ -38,11 +38,12 @@ public class Produto {
 	@JoinColumn(name = "fk_categoria")
 	@JsonIgnoreProperties("produtos")
 	private Categoria categoria;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_usuario")
 	@JsonIgnoreProperties("produtos")
 	private Usuario usuario;
+
 	
 	//URL Produto
 	public String getUrlProduto() {

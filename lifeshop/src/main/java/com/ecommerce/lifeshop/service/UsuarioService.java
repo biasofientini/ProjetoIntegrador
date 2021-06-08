@@ -1,10 +1,14 @@
 package com.ecommerce.lifeshop.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
+import com.ecommerce.lifeshop.model.UsuarioLogin;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.lifeshop.model.Usuario;
@@ -15,6 +19,8 @@ public class UsuarioService {
 
 	@Autowired
 	public UsuarioRepository repository;
+
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	// trazer todos
 	public ResponseEntity<List<Usuario>> findAllUsuario() {
@@ -41,14 +47,42 @@ public class UsuarioService {
 		}
 	}
 
-	// salvar usuario
+	public Usuario CadastroUsuario(Usuario usuario) {
+		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
+
+		if(user.isPresent()){
+			return null;
+		} else {
+			String senhaEncoder = encoder.encode(usuario.getSenha());
+			usuario.setSenha(senhaEncoder);
+
+			return repository.save(usuario);
+		}
+	}
+
+	public Optional<UsuarioLogin> LogarUsuario(Optional<UsuarioLogin> usuario) {
+		Optional<Usuario> user = repository.findByEmail(usuario.get().getEmail());
+
+		if(user.isPresent()) {
+			if(encoder.matches(usuario.get().getSenha(), user.get().getSenha())) {
+				String auth = usuario.get().getEmail() + ":" + usuario.get().getSenha();
+
+				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
+				String authHeader = "Basic " + new String(encodedAuth);
+
+				usuario.get().setToken(authHeader);
+				usuario.get().setNome(user.get().getNome());
+				usuario.get().setSenha(user.get().getSenha());
+
+				return usuario;
+			}
+		}
+		return null;
+	}
+
 	public Usuario save(Usuario usuario) {
 		return repository.save(usuario);
 	}
-
-	/*
-	 * /deletar por id public void delete(Long id) { repository.deleteById(id); }
-	 */
 
 	// deletar por id
 	public ResponseEntity<Usuario> delete(Long id) {
