@@ -9,7 +9,7 @@ import com.ecommerce.lifeshop.model.Categoria;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 	
-	public List<Categoria> findByNomeContainingIgnoreCase(String nome);
+	public Optional<Categoria> findByNomeContainingIgnoreCase(String nome);
 	public List<Categoria> findAllByDescricaoContainingIgnoreCase(String descricao);
 
 }
