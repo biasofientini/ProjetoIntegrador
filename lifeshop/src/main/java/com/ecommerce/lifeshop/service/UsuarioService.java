@@ -61,32 +61,35 @@ public class UsuarioService {
         }
     }
 
-    public Optional<UsuarioLogin> LogarUsuario(Optional<UsuarioLogin> usuario) {
-        Optional<Usuario> user = repository.findByEmail(usuario.get().getEmail());
+	public ResponseEntity<UsuarioLogin> LogarUsuario(UsuarioLogin usuario) {
+	Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
 
-        if (user.isPresent()) {
-            if (encoder.matches(usuario.get().getSenha(), user.get().getSenha())) {
-                String auth = usuario.get().getEmail() + ":" + usuario.get().getSenha();
+	if(user.isPresent()) {
+		if(encoder.matches(usuario.getSenha(), user.get().getSenha())) {
+			String auth = usuario.getEmail() + ":" + usuario.getSenha();
 
-                byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
-                String authHeader = "Basic " + new String(encodedAuth);
+			byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
+			String authHeader = "Basic " + new String(encodedAuth);
 
-                usuario.get().setToken(authHeader);
-                usuario.get().setNome(user.get().getNome());
-                usuario.get().setSenha(user.get().getSenha());
+			usuario.setToken(authHeader);
+			usuario.setNome(user.get().getNome());
+			usuario.setSenha(user.get().getSenha());
 
-                return usuario;
-            }
-        }
-        return null;
-    }
+			return ResponseEntity.ok(usuario);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+	} else {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+}
 
     public Usuario save(Usuario usuario) {
         return repository.save(usuario);
     }
 
     // deletar por id
-    public ResponseEntity delete(Long id) {
+    public ResponseEntity<Object> delete(Long id) {
         if(repository.findById(id) != null){
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).build();
