@@ -37,10 +37,7 @@ public class Usuario {
 	
 	@Size(min = 8, max= 8, message = "Erro tamanho cep usuário")
 	private String cep;
-	
-	@OneToMany(mappedBy = "usuario", cascade= CascadeType.ALL)
-	@JsonIgnoreProperties("usuario")
-	private List<Produto> produtos = new ArrayList<>();
+
 
 	//Id
 	public Long getId() {
@@ -94,16 +91,6 @@ public class Usuario {
 
 	public void setCep(String cep) {
 		this.cep = cep;
-	}
-
-	
-	//para relacionamento com a tabela produtos
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
-
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
 	}
 
 }

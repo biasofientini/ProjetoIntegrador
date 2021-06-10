@@ -25,42 +25,42 @@ import com.ecommerce.lifeshop.service.UsuarioService;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-	@Autowired
-	private UsuarioService service;
-	
-	@GetMapping("/todos")
-	public ResponseEntity<List<Usuario>> getAllUsuario(){
-		return service.findAllUsuario();
-	}
-	@GetMapping("/id/{id}")
-	public ResponseEntity<Usuario> getById(@PathVariable Long id){
-		return service.findUsuarioById(id);
-	}
-	
-	@GetMapping("/nome/{nome}")
-	public ResponseEntity<List<Usuario>> getUsuarioByNome(@PathVariable String nome){
-		return service.findUsuarioByNome(nome);
-	}
+    @Autowired
+    private UsuarioService service;
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.CadastroUsuario(usuario));
-	}
+    @GetMapping("/todos")
+    public ResponseEntity<List<Usuario>> getAllUsuario() {
+        return service.findAllUsuario();
+    }
 
-	@PostMapping("/login")
-	public ResponseEntity<UsuarioLogin> logar (@RequestBody Optional<UsuarioLogin> usuario) {
-		return service.LogarUsuario(usuario).map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-	}
-	
-	@PutMapping("/atualizar")
-	public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario){
-		return ResponseEntity.status(200).body(service.save(usuario));
-	}
-	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Usuario> delete(@Valid @PathVariable Long id) {
-		return service.delete(id);
-	}
-	
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+        return service.findUsuarioById(id);
+    }
+
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<List<Usuario>> getUsuarioByNome(@PathVariable String nome) {
+        return service.findUsuarioByNome(nome);
+    }
+
+    @PostMapping("/cadastro")
+    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+        return service.CadastroUsuario(usuario);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioLogin> logar(@Valid @RequestBody Optional<UsuarioLogin> usuario) {
+        return service.LogarUsuario(usuario).map(resp -> ResponseEntity.ok(resp))
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
+        return ResponseEntity.status(200).body(service.save(usuario));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        return service.delete(id);
+    }
 }
