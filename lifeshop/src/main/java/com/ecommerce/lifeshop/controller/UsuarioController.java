@@ -1,13 +1,12 @@
 package com.ecommerce.lifeshop.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import javax.validation.Valid;
 
 import com.ecommerce.lifeshop.model.UsuarioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,11 +47,10 @@ public class UsuarioController {
         return service.CadastroUsuario(usuario);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioLogin> logar(@Valid @RequestBody Optional<UsuarioLogin> usuario) {
-        return service.LogarUsuario(usuario).map(resp -> ResponseEntity.ok(resp))
-                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-    }
+	@PostMapping("/login")
+	public ResponseEntity<UsuarioLogin> logar(@RequestBody UsuarioLogin usuario) {
+		return service.LogarUsuario(usuario);
+	}
 
     @PutMapping("/atualizar")
     public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
@@ -60,7 +58,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
         return service.delete(id);
     }
 }
