@@ -1,12 +1,17 @@
 package com.ecommerce.lifeshop.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_produtos")
@@ -22,14 +27,19 @@ public class Produto {
 	
 	@Size(max = 255, message = "Erro tamanho descricao")
 	private String descricao;
-	
-	@NotNull
+
 	private float preco;
 	
 	private int estoque;
 	
 	private String urlProduto;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_categoria")
+	@JsonIgnoreProperties("produtos")
+	private Categoria categoria;
 
+	
 	//URL Produto
 	public String getUrlProduto() {
 		return urlProduto;
@@ -80,9 +90,19 @@ public class Produto {
 	public int getEstoque() {
 		return estoque;
 	}
-
+	
 	public void setEstoque(int estoque) {
 		this.estoque = estoque;
 	}
+	
+	
+	//Para relacionamento com a tabela categoria
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 	
 }
