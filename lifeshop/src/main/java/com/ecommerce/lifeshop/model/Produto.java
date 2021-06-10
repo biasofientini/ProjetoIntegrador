@@ -39,11 +39,6 @@ public class Produto {
 	@JsonIgnoreProperties("produtos")
 	private Categoria categoria;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_usuario")
-	@JsonIgnoreProperties("produtos")
-	private Usuario usuario;
-
 	
 	//URL Produto
 	public String getUrlProduto() {
@@ -107,14 +102,6 @@ public class Produto {
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
-	}
-	
-	//Para relacionamento com a tabela produto
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 	
 	
