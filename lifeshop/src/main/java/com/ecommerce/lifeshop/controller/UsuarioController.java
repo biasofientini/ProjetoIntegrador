@@ -43,12 +43,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
         return service.CadastroUsuario(usuario);
     }
 
 	@PostMapping("/login")
-	public ResponseEntity<UsuarioLogin> logar(@RequestBody UsuarioLogin usuario) {
+	public ResponseEntity<UsuarioLogin> logar(@Valid @RequestBody UsuarioLogin usuario) {
 		return service.LogarUsuario(usuario);
 	}
 
