@@ -1,17 +1,17 @@
 package com.ecommerce.lifeshop.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ecommerce.lifeshop.model.util.Categoria;
+
 
 @Entity
 @Table(name = "tb_produtos")
@@ -34,12 +34,9 @@ public class Produto {
 	
 	private String urlProduto;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_categoria")
-	@JsonIgnoreProperties("produtos")
-	private Categoria categoria;
-
+	private @Enumerated(EnumType.STRING) Categoria categoria;
 	
+
 	//URL Produto
 	public String getUrlProduto() {
 		return urlProduto;
@@ -96,13 +93,13 @@ public class Produto {
 	}
 	
 	
-	//Para relacionamento com a tabela categoria
+	//Para relacionamento com o enum categoria
 	public Categoria getCategoria() {
 		return categoria;
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	
+
 	
 }
