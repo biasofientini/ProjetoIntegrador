@@ -35,7 +35,9 @@ public class UsuarioService {
 
     // trazer por id
     public ResponseEntity<Usuario> findUsuarioById(Long id) {
-        return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.status(404).build());
+        return repository.findById(id)
+        		.map(resp -> ResponseEntity.ok(resp))
+        		.orElse(ResponseEntity.status(404).build());
     }
 
     // trazer usuários por nome
