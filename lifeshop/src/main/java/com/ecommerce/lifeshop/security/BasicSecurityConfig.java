@@ -22,6 +22,9 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(service);
+        
+        //auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("ROLE_ADMIN");
+        //Usar para logar o primeiro usuário como administrador passando essa role para ele e dar inicio ao sistema
     }
 
     @Bean
@@ -32,10 +35,13 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/usuarios/cadastro").permitAll()
+                .antMatchers("/usuarios/cadastro/**").permitAll()
                 .antMatchers("/usuarios/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/usuarios/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

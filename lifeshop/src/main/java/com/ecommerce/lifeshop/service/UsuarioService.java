@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ecommerce.lifeshop.model.UsuarioLogin;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ecommerce.lifeshop.model.Role;
 import com.ecommerce.lifeshop.model.Usuario;
+import com.ecommerce.lifeshop.repository.RoleRepository;
 import com.ecommerce.lifeshop.repository.UsuarioRepository;
 
 @Service
@@ -20,6 +23,9 @@ public class UsuarioService {
 
 	@Autowired
 	public UsuarioRepository repository;
+	
+	@Autowired
+	public RoleRepository repositoryR;
 
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -49,12 +55,13 @@ public class UsuarioService {
 		}
 	}
 
-	public ResponseEntity<Usuario> newUsuario(Usuario usuario) {
+	public ResponseEntity<Usuario> newUsuario(Usuario usuario, Long idRole) {
 		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
-
-		if (user.isPresent()) {
+		Optional<Role> role = repositoryR.findById(idRole);
+		if (user.isPresent() && role.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		} else {
+			usuario.getRoles().add(role.get());
 			String senhaEncoder = encoder.encode(usuario.getSenha());
 			usuario.setSenha(senhaEncoder);
 
@@ -108,4 +115,5 @@ public class UsuarioService {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
+	
 }

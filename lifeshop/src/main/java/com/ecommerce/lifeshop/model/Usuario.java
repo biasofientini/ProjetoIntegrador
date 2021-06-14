@@ -1,7 +1,9 @@
 package com.ecommerce.lifeshop.model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -65,14 +67,14 @@ public class Usuario {
 	        inverseJoinColumns = @JoinColumn(
 	          name = "role_id", referencedColumnName = "id")) 
 	@JsonIgnoreProperties("usuarios")
-    private Collection<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
 	/*
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")
 	@JsonIgnoreProperties("usuarios")
-	private Role roles;
+	private Collection<Role> roles;
 	*/
 	
 	//Id
@@ -145,23 +147,13 @@ public class Usuario {
 		this.pontuacao = pontuacao;
 	}
 
-	public Collection<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Collection<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
 	
-	/*
-
-	public Role getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Role roles) {
-		this.roles = roles;
-	}
-*/
 }

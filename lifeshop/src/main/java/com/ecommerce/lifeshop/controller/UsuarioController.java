@@ -45,9 +45,9 @@ public class UsuarioController {
         return service.findUsuarioByNome(nome);
     }
 
-    @PostMapping("/cadastro")
-    public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario) {
-        return service.newUsuario(usuario);
+    @PostMapping("/cadastro/role/{id_role}")
+    public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario, @PathVariable(value = "id_role") Long idRole) {
+        return service.newUsuario(usuario, idRole);
     }
 
 	@PostMapping("/login")

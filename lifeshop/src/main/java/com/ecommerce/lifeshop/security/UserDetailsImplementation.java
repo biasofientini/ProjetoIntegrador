@@ -16,7 +16,7 @@ public class UserDetailsImplementation implements UserDetails, Serializable {
     private String email;
     private String password;
     private Collection<Role> roles; 
-  
+
     
 
     public UserDetailsImplementation(Usuario usuario) {
@@ -28,7 +28,7 @@ public class UserDetailsImplementation implements UserDetails, Serializable {
 
     public UserDetailsImplementation() {}
 
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
