@@ -8,6 +8,9 @@ import javax.validation.Valid;
 import com.ecommerce.lifeshop.model.UsuarioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,8 +46,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
-        return service.CadastroUsuario(usuario);
+    public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario) {
+        return service.newUsuario(usuario);
     }
 
 	@PostMapping("/login")
@@ -54,11 +57,18 @@ public class UsuarioController {
 
     @PutMapping("/atualizar")
     public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
-        return ResponseEntity.status(200).body(service.save(usuario));
+        return service.updateUsuario(usuario);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         return service.delete(id);
     }
+    
+    /*
+    @Secured("ROLE_VIEWER")
+    public String getUsername() {
+        SecurityContext securityContext = SecurityContextHolder.
+        return securityContext.getAuthentication().getName();
+    }*/
 }

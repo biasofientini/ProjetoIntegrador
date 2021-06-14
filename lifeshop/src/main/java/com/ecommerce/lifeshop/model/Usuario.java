@@ -1,18 +1,25 @@
 package com.ecommerce.lifeshop.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 @Entity
@@ -23,6 +30,8 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
+	@NotBlank
 	@Size (min = 5, max = 45, message = "Erro tamanho nome usuário")
 	private String nome;
 	
@@ -43,15 +52,28 @@ public class Usuario {
 	private String cep;
 
 	@NotNull
-    private Boolean admin;
-    
-	@NotNull
     private Integer pontuacao;
     
     
 	@OneToMany(mappedBy = "carrinhoUsuario", cascade = CascadeType.ALL)
 	private List<Carrinho> carrinho; //lista de todas as compras (carrinhos) que um usuário fez no ecommerce
 	
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(joinColumns = @JoinColumn(
+	          name = "usuario_id", referencedColumnName = "id"), 
+	        inverseJoinColumns = @JoinColumn(
+	          name = "role_id", referencedColumnName = "id")) 
+	@JsonIgnoreProperties("usuarios")
+    private Collection<Role> roles;
+
+
+	/*
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "role_id")
+	@JsonIgnoreProperties("usuarios")
+	private Role roles;
+	*/
 	
 	//Id
 	public Long getId() {
@@ -115,14 +137,6 @@ public class Usuario {
 		this.carrinho = carrinho;
 	}
 
-	public Boolean getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Boolean admin) {
-		this.admin = admin;
-	}
-
 	public Integer getPontuacao() {
 		return pontuacao;
 	}
@@ -131,4 +145,23 @@ public class Usuario {
 		this.pontuacao = pontuacao;
 	}
 
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
+
+	
+	/*
+
+	public Role getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Role roles) {
+		this.roles = roles;
+	}
+*/
 }
