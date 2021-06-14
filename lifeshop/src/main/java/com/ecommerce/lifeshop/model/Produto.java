@@ -11,10 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.ecommerce.lifeshop.model.util.Categoria;
+import com.sun.istack.NotNull;
 
 
 @Entity
@@ -32,12 +32,15 @@ public class Produto {
 	@Size(max = 255, message = "Erro tamanho descricao")
 	private String descricao;
 
-	private float preco;
+	@NotNull
+	private Float preco;
 	
-	private int estoque;
+	@NotNull
+	private Integer estoque;
 	
 	private String urlProduto;
-	
+	 
+	 
 	private @Enumerated(EnumType.STRING) Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
