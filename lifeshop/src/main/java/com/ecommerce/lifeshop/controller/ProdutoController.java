@@ -39,7 +39,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/atualizar")
-	public ResponseEntity<Produto> put(@RequestBody Produto produto){
+	public ResponseEntity<Produto> put(@Valid @RequestBody Produto produto){
 		return service.updateProduto(produto.getId(), produto);	
 	}
 
