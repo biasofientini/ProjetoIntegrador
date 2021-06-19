@@ -1,5 +1,6 @@
 package com.ecommerce.lifeshop.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -30,33 +31,33 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
-	@NotBlank
-	@Size (min = 5, max = 45, message = "Erro tamanho nome usuário")
+	@NotBlank(message = "Erro nome não pode estar em branco")
+	@Size (min = 3, max = 45, message = "Erro tamanho nome usuário")
 	private String nome;
 	
-	@NotNull
-	@NotBlank
-	@Email
+	
+	@NotBlank(message = "Erro email não pode estar em branco")
+	@Email(message = "Erro email não válido")
 	private String email;
 	
+	@NotBlank(message = "Erro senha não pode estar em branco")
 	@Size (min = 8, message = "Erro tamanho senha usuário")
 	private String senha;
 	
-	@NotNull
-	@NotBlank
+	
+	@NotBlank(message = "Erro endereço não pode estar em branco")
 	private String endereco;
 	
-	@NotBlank
+	@NotBlank(message = "Erro cep não pode estar em branco")
 	@Size(min = 8, max= 8, message = "Erro tamanho cep usuário")
 	private String cep;
 
-	@NotNull
+	@NotNull(message = "Erro pontuação não deve estar nula")
     private Integer pontuacao;
     
     
 	@OneToMany(mappedBy = "carrinhoUsuario", cascade = CascadeType.ALL)
-	private List<Carrinho> carrinho; //lista de todas as compras (carrinhos) que um usuário fez no ecommerce
+	private List<Carrinho> carrinho = new ArrayList<>(); //lista de todas as compras (carrinhos) que um usuário fez no ecommerce
 	
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

@@ -58,7 +58,7 @@ public class UsuarioService {
 	public ResponseEntity<Usuario> newUsuario(Usuario usuario, Long idRole) {
 		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
 		Optional<Role> role = repositoryR.findById(idRole);
-		if (user.isPresent() && role.isEmpty()) {
+		if (user.isPresent() || role.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		} else {
 			usuario.getRoles().add(role.get());

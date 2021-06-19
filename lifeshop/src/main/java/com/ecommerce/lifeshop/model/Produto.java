@@ -1,5 +1,6 @@
 package com.ecommerce.lifeshop.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,10 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.ecommerce.lifeshop.model.util.Categoria;
-import com.sun.istack.NotNull;
+
 
 
 @Entity
@@ -25,26 +28,28 @@ public class Produto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
-	@Size(min = 5, max = 45, message = "Erro tamanho nome")
+	@NotBlank(message = "Erro nome produto não pode estar em branco")
+	@Size(min = 2, max = 45, message = "Erro tamanho nome")
 	private String nome;
 	
-	@Size(max = 255, message = "Erro tamanho descricao")
+	@NotBlank(message = "Erro descrição produto não pode estar em branco")
+	@Size(min = 5, max = 255, message = "Erro tamanho descricao")
 	private String descricao;
 
-	@NotNull
+	@NotNull(message = "Erro preço não deve estar nulo")
 	private Float preco;
 	
-	@NotNull
+	@NotNull(message = "Erro estoque não deve estar nulo")
 	private Integer estoque;
 	
+	@NotBlank(message = "Imagem não pode estar em branco")
 	private String urlProduto;
 	 
 	 
 	private @Enumerated(EnumType.STRING) Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
-	private List<Item> venda;
+	private List<Item> venda = new ArrayList<>();
 	
 
 	//URL Produto
