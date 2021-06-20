@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ecommerce.lifeshop.service.ProdutoService;
 import com.ecommerce.lifeshop.model.Produto;
+import com.ecommerce.lifeshop.model.util.Categoria;
 
 import javax.validation.Valid;
 
@@ -31,6 +32,11 @@ public class ProdutoController {
 	@GetMapping("/descricao/{descricao}")
 	public ResponseEntity<List<Produto>> getProdutoByDescricao(@PathVariable String descricao){
 		return service.findProdutoByDescricao(descricao);
+	}
+	
+	@GetMapping("/categoria/{categoria}")
+	public ResponseEntity<List<Produto>> getProdutosByCategoria(@PathVariable(value="categoria") Categoria categoria){
+		return service.findProdutoByCategoria(categoria);
 	}
 
 	@PostMapping("/salvar")

@@ -1,21 +1,18 @@
 package com.ecommerce.lifeshop.model;
 
-import java.util.Collection;
+
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -26,36 +23,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "tb_role")
 public class Role implements GrantedAuthority{
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	//@Column(unique = true) //incluindo sempre mais um role repetido na tb_role
+	@Column(unique = true) //incluindo sempre mais um role repetido na tb_role
 	private String role;
-	
-	
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("roles")
-    //private Collection<Usuario> usuarios;
+
 	private Set<Usuario> usuarios = new HashSet<>();
 	
-	/*
-	@OneToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("roles")
-    private Collection<Usuario> usuarios;
-	*/
+	//construtor usado na LifeshopApplication.java para inicializar a aplicação alimentando a tabela ROLE
+	public Role(String role) {
+		this.role = role;
+	}
 	
+	//obrigatório ter esse construtor vazio, porque do construtor anterior que recebe um parametro
+	public Role() {}
 	
-	
-
-
 	public Long getId() {
 		return id;
 	}
@@ -64,20 +53,6 @@ public class Role implements GrantedAuthority{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-
-
-
-	/*
-	public Collection<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-
-	public void setUsuarios(Collection<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}*/
 
 	public Set<Usuario> getUsuarios() {
 		return usuarios;

@@ -34,7 +34,7 @@ public class UsuarioService {
 
 		List<Usuario> usuarios = repository.findAll();
 		if (usuarios.isEmpty()) {
-			return ResponseEntity.status(204).build();
+			return ResponseEntity.status(404).build();
 		} else {
 			return ResponseEntity.status(200).body(usuarios);
 		}
@@ -49,7 +49,7 @@ public class UsuarioService {
 	public ResponseEntity<List<Usuario>> findUsuarioByNome(String nome) {
 		List<Usuario> usuarios = repository.findAllByNomeContainingIgnoreCase(nome);
 		if (!usuarios.isEmpty()) {
-			return ResponseEntity.status(302).body(usuarios);
+			return ResponseEntity.status(200).body(usuarios);
 		} else {
 			return ResponseEntity.status(404).build();
 		}
@@ -112,7 +112,7 @@ public class UsuarioService {
 			repository.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
 	
