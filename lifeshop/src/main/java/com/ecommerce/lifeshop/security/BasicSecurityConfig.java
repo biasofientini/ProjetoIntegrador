@@ -23,7 +23,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(service);
         
-        //auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("ROLE_ADMIN");
+        //auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).authorities("ROLE_ADMIN");
         //Usar para logar o primeiro usuário como administrador passando essa role para ele e dar inicio ao sistema
     }
 
@@ -35,6 +35,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/lifeshop").permitAll()
                 .antMatchers("/usuarios/cadastro/**").permitAll()
                 .antMatchers("/usuarios/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/usuarios/**").hasRole("ADMIN")
@@ -42,6 +43,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.GET,"/categorias/todas").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
