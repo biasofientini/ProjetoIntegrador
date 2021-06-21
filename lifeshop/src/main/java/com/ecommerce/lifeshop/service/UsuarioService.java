@@ -1,10 +1,10 @@
 package com.ecommerce.lifeshop.service;
 
 import java.nio.charset.StandardCharsets;
+
+
 import java.util.List;
 import java.util.Optional;
-
-import com.ecommerce.lifeshop.model.UsuarioLogin;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,29 +15,30 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.lifeshop.model.Role;
 import com.ecommerce.lifeshop.model.Usuario;
+import com.ecommerce.lifeshop.model.UsuarioDTO;
 import com.ecommerce.lifeshop.repository.RoleRepository;
 import com.ecommerce.lifeshop.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
 
+	// usuário tem que estar autenticado e só pode consultar seu próprio carrinho ->
+	// idor
+
 	@Autowired
 	public UsuarioRepository repository;
-	
+
 	@Autowired
 	public RoleRepository repositoryR;
 
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	// trazer todos
-	public ResponseEntity<List<Usuario>> findAllUsuario() {
-
-		List<Usuario> usuarios = repository.findAll();
-		if (usuarios.isEmpty()) {
-			return ResponseEntity.status(404).build();
-		} else {
-			return ResponseEntity.status(200).body(usuarios);
+	public ResponseEntity<List<Usuario>> findAllUsuario(Optional<String> nome) {
+		if (nome.isPresent()) {
+			return ResponseEntity.ok().body(repository.findAllByNomeContainingIgnoreCase(nome.get()));
 		}
+		return ResponseEntity.ok().body(repository.findAll());
 	}
 
 	// trazer por id
@@ -49,60 +50,64 @@ public class UsuarioService {
 	public ResponseEntity<List<Usuario>> findUsuarioByNome(String nome) {
 		List<Usuario> usuarios = repository.findAllByNomeContainingIgnoreCase(nome);
 		if (!usuarios.isEmpty()) {
-			return ResponseEntity.status(200).body(usuarios);
+			return ResponseEntity.status(302).body(usuarios);
 		} else {
 			return ResponseEntity.status(404).build();
 		}
 	}
 
-	public ResponseEntity<Usuario> newUsuario(Usuario usuario, Long idRole) {
+	// cadastro
+	public ResponseEntity<Usuario> postUsuario(Usuario usuario, Long idRole) {
 		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
 		Optional<Role> role = repositoryR.findById(idRole);
-		if (user.isPresent() || role.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		} else {
+		if (!user.isPresent() && !role.isEmpty()) {
 			usuario.getRoles().add(role.get());
 			String senhaEncoder = encoder.encode(usuario.getSenha());
 			usuario.setSenha(senhaEncoder);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
 		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 
-	public ResponseEntity<UsuarioLogin> LogarUsuario(UsuarioLogin usuario) {
-		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
-		String senha = usuario.getSenha();
-		// 
-			if (user.isPresent() && senha!=null) {
-				if (encoder.matches(usuario.getSenha(), user.get().getSenha())) {
-					String auth = usuario.getEmail() + ":" + usuario.getSenha();
+	// token exibindo senha -> Pensar em uma forma de encriptografar o token
+	public ResponseEntity<Usuario> LogarUsuario(UsuarioDTO usuariodto) {
+		Optional<Usuario> usuario = repository.findByEmail(usuariodto.email);
 
-					byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
-					String authHeader = "Basic " + new String(encodedAuth);
+		if (usuario.isPresent() && usuariodto.senha != null) {
+			if (encoder.matches(usuariodto.senha, usuario.get().getSenha())) {
+				String auth = usuariodto.email + ":" + usuariodto.senha;
 
-					usuario.setToken(authHeader);
-					usuario.setNome(user.get().getNome());
-					usuario.setSenha(user.get().getSenha());
+				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
+				String authHeader = "Basic " + new String(encodedAuth);
 
-					return ResponseEntity.ok(usuario);
-				} else {
-					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-				}
+				usuario.get().setToken(authHeader);
+				repository.save(usuario.get());
+
+				return ResponseEntity.ok(usuario.get());
 			} else {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 			}
-		
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 
 	}
 
-	public ResponseEntity<Usuario> updateUsuario(Usuario usuario) {
-		Optional<Usuario> user = repository.findById(usuario.getId());
-		
-		if(user.isPresent() && !user.get().getSenha().equals(usuario.getSenha())) {
+	// atualizar usuario
+	public ResponseEntity<Usuario> updateUsuario(String token, Usuario usuario, Long id) {
+		Optional<Usuario> user = repository.findById(id);
+		Optional<Usuario> userToken = repository.findByToken(token);
+		if (user.isPresent() && !user.get().getSenha().equals(usuario.getSenha())
+				&& user.get().equals(userToken.get())) {
 			String senhaEncoder = encoder.encode(usuario.getSenha());
-			usuario.setSenha(senhaEncoder);
+			user.get().setSenha(senhaEncoder);
+			user.get().setCep(usuario.getCep());
+			user.get().setEmail(usuario.getEmail());
+			user.get().setEndereco(usuario.getEndereco());
+			user.get().setNome(usuario.getNome());
 		}
-		return ResponseEntity.status(200).body(repository.save(usuario));
+		return ResponseEntity.status(200).body(repository.save(user.get()));
 
 	}
 
@@ -112,8 +117,9 @@ public class UsuarioService {
 			repository.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	
+
 }
+

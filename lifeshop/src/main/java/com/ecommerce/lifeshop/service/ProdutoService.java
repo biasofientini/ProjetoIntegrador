@@ -1,14 +1,20 @@
 package com.ecommerce.lifeshop.service;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.ecommerce.lifeshop.model.Produto;
+import com.ecommerce.lifeshop.model.ProdutoDTO;
+import com.ecommerce.lifeshop.model.Usuario;
 import com.ecommerce.lifeshop.model.util.Categoria;
 import com.ecommerce.lifeshop.repository.ProdutoRepository;
+import com.ecommerce.lifeshop.repository.UsuarioRepository;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,66 +23,75 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository repository;
 
-	// trazer todos
-	public ResponseEntity<List<Produto>> findAllProduto() {
-		List<Produto> produtos = repository.findAll();
-		if (produtos.isEmpty()) {
-			return ResponseEntity.status(404).build();
-		} else {
-			return ResponseEntity.status(200).body(produtos);
+	@Autowired
+	private UsuarioRepository repositoryUsuario;
+
+	// trazer todos e se houver descricao, filtra
+	public ResponseEntity<List<Produto>> findAllProduct(Optional<String> descricao) {
+		if (descricao.isPresent()) {
+			List<Produto> produtos = repository.findAllByDescricaoContainingIgnoreCase(descricao.get());
+			return ResponseEntity.ok().body(produtos);
 		}
+		return ResponseEntity.status(200).body(repository.findAll());
 	}
 
 	// trazer por id
 	public ResponseEntity<Produto> findProdutoById(Long id) {
-		return repository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.status(404).build());
+		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.status(404).build());
 	}
-
-	// trazer por descricao
-	public ResponseEntity<List<Produto>> findProdutoByDescricao(String descricao) {
-		List<Produto> produtos = repository.findAllByDescricaoContainingIgnoreCase(descricao);
-		if (!produtos.isEmpty()) {
-			return ResponseEntity.status(200).body(produtos);
-		} else {
-			return ResponseEntity.status(404).build();
-		}
-	}
-
+	
 	// trazer por categoria
-	public ResponseEntity<List<Produto>> findProdutoByCategoria(Categoria categoria) {
-		List<Produto> produtos = repository.findAllByCategoria(categoria);
-		if (!produtos.isEmpty()) {
-			return ResponseEntity.status(200).body(produtos);
-		} else {
-			return ResponseEntity.status(404).build();
+		public ResponseEntity<List<Produto>> findProdutoByCategoria(Categoria categoria) {
+			List<Produto> produtos = repository.findAllByCategoria(categoria);
+			if (!produtos.isEmpty()) {
+				return ResponseEntity.status(200).body(produtos);
+			} else {
+				return ResponseEntity.status(404).build();
+			}
 		}
-	}
 
 	// salvar produto
-	public Produto save(Produto produto) {
-		return repository.save(produto);
+	public ResponseEntity<Produto> postProduto(String token, ProdutoDTO produtodto) {
+		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
+		if (usuario.isPresent()) {
+			Produto produto = new Produto();
+			produto.setNome(produtodto.nome);
+			produto.setPreco(produtodto.preco);
+			produto.setDescricao(produtodto.descricao);
+			produto.setEstoque(produtodto.estoque);
+			produto.setUrlImagem(produtodto.urlImagem);
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto));
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	// atualizar
-	public ResponseEntity<Produto> updateProduto(Long id, Produto produto) {
-		if (repository.findById(id).isPresent()) {
-			return ResponseEntity.status(200).body(repository.save(produto));
-		} else {
-			return ResponseEntity.status(400).build();
+	public ResponseEntity<Produto> updateProduto(String token, ProdutoDTO produtodto, Long id) {
+		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
+		if (usuario.isPresent()) {
+			Optional<Produto> produto = repository.findById(id);
+			produto.get().setNome(produtodto.nome);
+			produto.get().setPreco(produtodto.preco);
+			produto.get().setDescricao(produtodto.descricao);
+			produto.get().setEstoque(produtodto.estoque);
+			produto.get().setUrlImagem(produtodto.urlImagem);
+
+			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto.get()));
 		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	// deletar por id
-	public ResponseEntity<Produto> delete(Long id) {
-		Optional<Produto> prodId = repository.findById(id);
-		if (prodId.isEmpty()) {
-			return ResponseEntity.status(404).build();
-		} else {
-			repository.deleteById(id);
-			return ResponseEntity.status(200).build();
+	public ResponseEntity<Object> delete(String token, Long id) {
+		Optional<Produto> produto = repository.findById(id);
+		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
+		if (usuario.isPresent() && produto.isPresent()) {
+			System.out.println("chegou aqui");
+			repository.delete(produto.get());
+			return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 }

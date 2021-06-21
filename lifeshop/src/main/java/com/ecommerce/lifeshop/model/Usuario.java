@@ -54,10 +54,11 @@ public class Usuario {
 
 	@NotNull(message = "Erro pontuação não deve estar nula")
     private Integer pontuacao;
-    
+	
+	private String token;
     
 	@OneToMany(mappedBy = "carrinhoUsuario", cascade = CascadeType.ALL)
-	private List<Carrinho> carrinho = new ArrayList<>(); //lista de todas as compras (carrinhos) que um usuário fez no ecommerce
+	private List<Carrinho> carrinho = new ArrayList<>(); 
 	
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -67,16 +68,17 @@ public class Usuario {
 	          name = "role_id", referencedColumnName = "id")) 
 	@JsonIgnoreProperties("usuarios")
     private Set<Role> roles = new HashSet<>();
-
-
-	/*
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "role_id")
-	@JsonIgnoreProperties("usuarios")
-	private Collection<Role> roles;
-	*/
 	
-	//Id
+	// Token
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	// Id
 	public Long getId() {
 		return id;
 	}
@@ -85,7 +87,7 @@ public class Usuario {
 		this.id = id;
 	}
 
-	//Nome
+	// Nome
 	public String getNome() {
 		return nome;
 	}
@@ -94,7 +96,7 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	//Email
+	// Email
 	public String getEmail() {
 		return email;
 	}
@@ -103,7 +105,7 @@ public class Usuario {
 		this.email = email;
 	}
 
-	//Senha
+	// Senha
 	public String getSenha() {
 		return senha;
 	}
@@ -112,7 +114,7 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	//Endereço
+	// Endereço
 	public String getEndereco() {
 		return endereco;
 	}
@@ -121,7 +123,7 @@ public class Usuario {
 		this.endereco = endereco;
 	}
 
-	//CEP
+	// CEP
 	public String getCep() {
 		return cep;
 	}
@@ -130,6 +132,7 @@ public class Usuario {
 		this.cep = cep;
 	}
 
+	// List Carrinho
 	public List<Carrinho> getCarrinho() {
 		return carrinho;
 	}
@@ -138,6 +141,7 @@ public class Usuario {
 		this.carrinho = carrinho;
 	}
 
+	// Pontuacao
 	public Integer getPontuacao() {
 		return pontuacao;
 	}
@@ -146,6 +150,7 @@ public class Usuario {
 		this.pontuacao = pontuacao;
 	}
 
+	// Set Role
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -154,5 +159,4 @@ public class Usuario {
 		this.roles = roles;
 	}
 
-	
 }
