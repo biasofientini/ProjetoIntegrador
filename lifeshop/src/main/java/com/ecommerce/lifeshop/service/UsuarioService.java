@@ -72,8 +72,8 @@ public class UsuarioService {
 	public ResponseEntity<UsuarioLogin> LogarUsuario(UsuarioLogin usuario) {
 		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
 		String senha = usuario.getSenha();
-
-			if (user.isPresent() && senha!=null ) {
+		// 
+			if (user.isPresent() && senha!=null) {
 				if (encoder.matches(usuario.getSenha(), user.get().getSenha())) {
 					String auth = usuario.getEmail() + ":" + usuario.getSenha();
 

@@ -36,10 +36,10 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/lifeshop").permitAll()
-                .antMatchers("/usuarios/cadastro/**").permitAll()
-                .antMatchers("/usuarios/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/usuarios/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/usuarios/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/produtos/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
