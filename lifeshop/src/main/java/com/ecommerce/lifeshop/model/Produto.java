@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.ecommerce.lifeshop.model.util.Categoria;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
@@ -43,32 +44,35 @@ public class Produto {
 	private Integer estoque;
 	
 	@NotBlank(message = "Imagem não pode estar em branco")
-	private String urlProduto;
+	private String urlImagem;
 	 
 	 
 	private @Enumerated(EnumType.STRING) Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("produto")
 	private List<Item> venda = new ArrayList<>();
 	
 
-	//URL Produto
-	public String getUrlProduto() {
-		return urlProduto;
+	// UrlImagem
+	public String getUrlImagem() {
+		return urlImagem;
 	}
-	public void setUrlProduto(String urlProduto) {
-		this.urlProduto = urlProduto;
+
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
 	}
-	
-	//Id
+
+	// Id
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	//Nome
+
+	// Nome
 	public String getNome() {
 		return nome;
 	}
@@ -77,8 +81,7 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	
-	//Descricao
+	// Descricao
 	public String getDescricao() {
 		return descricao;
 	}
@@ -87,41 +90,39 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	
-	//Preco
-	public float getPreco() {
+	// Preco
+	public Float getPreco() {
 		return preco;
 	}
 
-	public void setPreco(float preco) {
+	public void setPreco(Float preco) {
 		this.preco = preco;
 	}
 
-	
-	//Estoque
-	public int getEstoque() {
+	// Estoque
+	public Integer getEstoque() {
 		return estoque;
 	}
-	
-	public void setEstoque(int estoque) {
+
+	public void setEstoque(Integer estoque) {
 		this.estoque = estoque;
 	}
-	
-	
-	//Para relacionamento com o enum categoria
+
+	// Enum Categoria
 	public Categoria getCategoria() {
 		return categoria;
 	}
+
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	/*
-	public Venda getVenda() {
+
+	// Lista itens
+	public List<Item> getVenda() {
 		return venda;
 	}
-	public void setVenda(Venda venda) {
+
+	public void setVenda(List<Item> venda) {
 		this.venda = venda;
 	}
-*/
-	
 }

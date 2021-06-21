@@ -13,4 +13,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	List<Usuario> findAllByNomeContainingIgnoreCase(String nome);
 	Optional<Usuario> findByEmail(String email);
+	Optional<Usuario> findByToken(String token);
 }
