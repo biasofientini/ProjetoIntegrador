@@ -1,5 +1,8 @@
 package com.ecommerce.lifeshop.model;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 //Data Transfer Object
 public class UsuarioDTO {
 
@@ -9,10 +12,19 @@ public class UsuarioDTO {
 
 	public String senha;
 	
-	public String endereco;
+	public String token;
 	
-	public String cep;
+	public static UsuarioDTO convert(Usuario usuario) {
+		UsuarioDTO usuariodto = new UsuarioDTO();
+		usuariodto.nome = usuario.getNome();
+		usuariodto.email = usuario.getEmail();
+		usuariodto.senha = usuario.getSenha();
+		usuariodto.token = usuario.getToken();
+		return usuariodto;
+	}
 	
-	public Integer pontuacao;
+	public static List<UsuarioDTO> convertList(List<Usuario> usuarios){
+		return usuarios.stream().map(u -> UsuarioDTO.convert(u)).collect(Collectors.toList());
+	}
 
 }

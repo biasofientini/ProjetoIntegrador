@@ -1,6 +1,7 @@
 package com.ecommerce.lifeshop.service;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.lifeshop.model.Carrinho;
+import com.ecommerce.lifeshop.model.ItemCarrinho;
+import com.ecommerce.lifeshop.model.ItemPedido;
+import com.ecommerce.lifeshop.model.Pedido;
 import com.ecommerce.lifeshop.model.Usuario;
 import com.ecommerce.lifeshop.repository.CarrinhoRepository;
 import com.ecommerce.lifeshop.repository.UsuarioRepository;
@@ -49,6 +53,20 @@ public class CarrinhoService {
 		if (usuario.isPresent()) {
 			if(carrinho.isPresent() && carrinho.get().getCarrinhoUsuario().equals(usuario.get())) {
 				return ResponseEntity.ok().body(carrinho.get());
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			}
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+	
+	//pegar todos os itens de um carrinho 
+	public ResponseEntity<List<ItemCarrinho>> getItensCarrinho(String token, Long id){
+		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
+		Optional<Carrinho> carrinho = repository.findById(id);
+		if(usuario.isPresent()) {
+			if(carrinho.isPresent() && carrinho.get().getCarrinhoUsuario().equals(usuario.get())) {
+				return ResponseEntity.ok().body(carrinho.get().getItens());
 			} else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 			}

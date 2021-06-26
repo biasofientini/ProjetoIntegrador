@@ -15,6 +15,7 @@ import com.ecommerce.lifeshop.service.RoleService;
 @RequestMapping("/lifeshop")
 public class LifeshopApplication {
 
+	
 	@Autowired
 	private RoleService serviceR;
 	

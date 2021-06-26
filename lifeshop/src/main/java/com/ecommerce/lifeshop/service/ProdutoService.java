@@ -2,6 +2,7 @@ package com.ecommerce.lifeshop.service;
 
 import java.util.List;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,31 +28,31 @@ public class ProdutoService {
 	private UsuarioRepository repositoryUsuario;
 
 	// trazer todos e se houver descricao, filtra
-	public ResponseEntity<List<Produto>> findAllProduct(Optional<String> descricao) {
+	public ResponseEntity<List<ProdutoDTO>> findAllProduct(Optional<String> descricao) {
 		if (descricao.isPresent()) {
 			List<Produto> produtos = repository.findAllByDescricaoContainingIgnoreCase(descricao.get());
-			return ResponseEntity.ok().body(produtos);
+			return ResponseEntity.ok().body(ProdutoDTO.convertList(produtos));
 		}
-		return ResponseEntity.status(200).body(repository.findAll());
+		return ResponseEntity.status(200).body(ProdutoDTO.convertList(repository.findAll()));
 	}
 
 	// trazer por id
-	public ResponseEntity<Produto> findProdutoById(Long id) {
-		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.status(404).build());
+	public ResponseEntity<ProdutoDTO> findProdutoById(Long id) {
+		return repository.findById(id).map(resp -> ResponseEntity.ok(ProdutoDTO.convert(resp))).orElse(ResponseEntity.status(404).build());
 	}
 	
 	// trazer por categoria
-		public ResponseEntity<List<Produto>> findProdutoByCategoria(Categoria categoria) {
+		public ResponseEntity<List<ProdutoDTO>> findProdutoByCategoria(Categoria categoria) {
 			List<Produto> produtos = repository.findAllByCategoria(categoria);
 			if (!produtos.isEmpty()) {
-				return ResponseEntity.status(200).body(produtos);
+				return ResponseEntity.status(200).body(ProdutoDTO.convertList(produtos));
 			} else {
 				return ResponseEntity.status(404).build();
 			}
 		}
 
 	// salvar produto
-	public ResponseEntity<Produto> postProduto(String token, ProdutoDTO produtodto) {
+	public ResponseEntity<ProdutoDTO> postProduto(String token, ProdutoDTO produtodto) {
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
 		if (usuario.isPresent()) {
 			Produto produto = new Produto();
@@ -61,13 +62,13 @@ public class ProdutoService {
 			produto.setEstoque(produtodto.estoque);
 			produto.setUrlImagem(produtodto.urlImagem);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto));
+			return ResponseEntity.status(HttpStatus.CREATED).body(ProdutoDTO.convert(repository.save(produto)));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	// atualizar
-	public ResponseEntity<Produto> updateProduto(String token, ProdutoDTO produtodto, Long id) {
+	public ResponseEntity<ProdutoDTO> updateProduto(String token, ProdutoDTO produtodto, Long id) {
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
 		if (usuario.isPresent()) {
 			Optional<Produto> produto = repository.findById(id);
@@ -77,7 +78,7 @@ public class ProdutoService {
 			produto.get().setEstoque(produtodto.estoque);
 			produto.get().setUrlImagem(produtodto.urlImagem);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto.get()));
+			return ResponseEntity.status(HttpStatus.CREATED).body(ProdutoDTO.convert(repository.save(produto.get())));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}

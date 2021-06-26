@@ -1,6 +1,7 @@
 package com.ecommerce.lifeshop.model;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,9 +50,14 @@ public class Produto {
 	 
 	private @Enumerated(EnumType.STRING) Categoria categoria;
 	
+	/*@OneToMany(mappedBy="produtoComprado", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("produtoComprado")
+	private List<ItemPedido> itens = new ArrayList<>();*/
+	
+	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("produto")
-	private List<Item> venda = new ArrayList<>();
+	private List<ItemCarrinho> venda = new ArrayList<>();
 	
 
 	// UrlImagem
@@ -118,11 +124,11 @@ public class Produto {
 	}
 
 	// Lista itens
-	public List<Item> getVenda() {
+	public List<ItemCarrinho> getVenda() {
 		return venda;
 	}
 
-	public void setVenda(List<Item> venda) {
+	public void setVenda(List<ItemCarrinho> venda) {
 		this.venda = venda;
 	}
 }

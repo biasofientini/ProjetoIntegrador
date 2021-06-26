@@ -3,6 +3,7 @@ package com.ecommerce.lifeshop.service;
 import java.nio.charset.StandardCharsets;
 
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +58,7 @@ public class UsuarioService {
 	}
 
 	// cadastro
-	public ResponseEntity<Usuario> postUsuario(Usuario usuario, Long idRole) {
+	public ResponseEntity<UsuarioDTO> postUsuario(Usuario usuario, Long idRole) {
 		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
 		Optional<Role> role = repositoryR.findById(idRole);
 		if (!user.isPresent() && !role.isEmpty()) {
@@ -65,13 +66,13 @@ public class UsuarioService {
 			String senhaEncoder = encoder.encode(usuario.getSenha());
 			usuario.setSenha(senhaEncoder);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
+			return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioDTO.convert(repository.save(usuario)));
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 
 	// token exibindo senha -> Pensar em uma forma de encriptografar o token
-	public ResponseEntity<Usuario> LogarUsuario(UsuarioDTO usuariodto) {
+	public ResponseEntity<UsuarioDTO> LogarUsuario(UsuarioDTO usuariodto) {
 		Optional<Usuario> usuario = repository.findByEmail(usuariodto.email);
 
 		if (usuario.isPresent() && usuariodto.senha != null) {
@@ -84,7 +85,7 @@ public class UsuarioService {
 				usuario.get().setToken(authHeader);
 				repository.save(usuario.get());
 
-				return ResponseEntity.ok(usuario.get());
+				return ResponseEntity.ok(UsuarioDTO.convert(usuario.get()));
 			} else {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 			}
@@ -95,7 +96,7 @@ public class UsuarioService {
 	}
 
 	// atualizar usuario
-	public ResponseEntity<Usuario> updateUsuario(String token, Usuario usuario, Long id) {
+	public ResponseEntity<UsuarioDTO> updateUsuario(String token, Usuario usuario, Long id) {
 		Optional<Usuario> user = repository.findById(id);
 		Optional<Usuario> userToken = repository.findByToken(token);
 		if (user.isPresent() && !user.get().getSenha().equals(usuario.getSenha())
@@ -107,7 +108,7 @@ public class UsuarioService {
 			user.get().setEndereco(usuario.getEndereco());
 			user.get().setNome(usuario.getNome());
 		}
-		return ResponseEntity.status(200).body(repository.save(user.get()));
+		return ResponseEntity.status(200).body(UsuarioDTO.convert(repository.save(user.get())));
 
 	}
 
