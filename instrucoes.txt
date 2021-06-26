@@ -11,3 +11,4 @@
     Code Runner
     Spring Boot Extension Pack
 4 - Na aba files, rodar o projeto via Spring boot dashboard
+OBS: se der errado, drop mysql-container usando "docker rm -f mysql-container"
