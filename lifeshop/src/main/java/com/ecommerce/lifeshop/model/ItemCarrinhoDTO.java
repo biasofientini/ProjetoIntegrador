@@ -25,5 +25,4 @@ public class ItemCarrinhoDTO {
 	public static List<ItemCarrinhoDTO> convertList(List<ItemCarrinho> carrinhos){
 		return carrinhos.stream().map(c -> ItemCarrinhoDTO.convert(c)).collect(Collectors.toList());
 	}
-
 }

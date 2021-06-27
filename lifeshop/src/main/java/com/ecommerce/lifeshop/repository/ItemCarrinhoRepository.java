@@ -14,5 +14,5 @@ public interface ItemCarrinhoRepository extends JpaRepository<ItemCarrinho, Long
 	List<ItemCarrinho> findByCarrinhoIn(List<Carrinho> carrinhos);
 
 	List<ItemCarrinho> findByCarrinho(Carrinho carrinho);
-
+	
 }

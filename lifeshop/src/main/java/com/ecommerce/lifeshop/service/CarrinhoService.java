@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.lifeshop.model.Carrinho;
 import com.ecommerce.lifeshop.model.ItemCarrinho;
-import com.ecommerce.lifeshop.model.ItemPedido;
-import com.ecommerce.lifeshop.model.Pedido;
 import com.ecommerce.lifeshop.model.Usuario;
 import com.ecommerce.lifeshop.repository.CarrinhoRepository;
 import com.ecommerce.lifeshop.repository.UsuarioRepository;

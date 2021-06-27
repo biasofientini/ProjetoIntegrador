@@ -20,6 +20,8 @@ public class LifeshopApplication {
 	private RoleService serviceR;
 	
 	//esse GetMapping será o do servidor onde iremos subir nossa api
+	//teste fofo :)
+	//blz
 	@GetMapping
 	public void setRoles() {
 		serviceR.saveRoles();

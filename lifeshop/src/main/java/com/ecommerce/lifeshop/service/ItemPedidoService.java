@@ -1,37 +1,62 @@
 package com.ecommerce.lifeshop.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import com.ecommerce.lifeshop.model.ItemPedido;
+import com.ecommerce.lifeshop.model.ItemPedidoDTO;
+import com.ecommerce.lifeshop.model.Pedido;
+import com.ecommerce.lifeshop.model.Usuario;
+import com.ecommerce.lifeshop.repository.ItemPedidoRepository;
+import com.ecommerce.lifeshop.repository.PedidoRepository;
+import com.ecommerce.lifeshop.repository.UsuarioRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ItemPedidoService {
+	
+	@Autowired
+	private UsuarioRepository repositoryUsuario;
+
+	@Autowired
+	private PedidoRepository repositoryPedido;
+
+	@Autowired
+	private ItemPedidoRepository repository;
 
 	//pegar todos os itens pedidos de um usuario
-	
-	
-	
-	
-	
-	/*public ResponseEntity<List<ItemCarrinhoDTO>> getAll(String token, Optional<Long> idCarrinho) {
-	Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
-	if (usuario.isPresent()) {
-		if (idCarrinho.isPresent()) {
-			Optional<Carrinho> carrinho = repositoryCarrinho.findById(idCarrinho.get());
-			if (carrinho.isPresent() && carrinho.get().getCarrinhoUsuario().equals(usuario.get())) {
-				return ResponseEntity.ok().body(ItemCarrinhoDTO.convertList(repository.findByCarrinho(carrinho.get())));
-			} else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	public ResponseEntity<List<ItemPedidoDTO>> getAll(String token, Optional<Long> idPedido){
+		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
+		if(usuario.isPresent()){
+			if(idPedido.isPresent()){
+				Optional<Pedido> pedido = repositoryPedido.findById(idPedido.get());
+				if(pedido.isPresent() && pedido.get().getPedidoUsuario().equals(usuario.get())){
+					return ResponseEntity.ok().body(ItemPedidoDTO.convertList(repository.findByPedido(pedido.get())));
+				} else{
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+				}
+			}
+			List<Pedido> pedidos = repositoryPedido.findAllByPedidoUsuario(usuario.get());
+			return ResponseEntity.ok().body(ItemPedidoDTO.convertList(repository.findByPedidoIn(pedidos)));
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+
+	//pegar um unico item
+	public ResponseEntity<ItemPedidoDTO> getItem(String token, Long id){
+		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
+		Optional<ItemPedido> item = repository.findById(id);
+		if(usuario.isPresent() && item.isPresent()){
+			Pedido pedido = item.get().getPedido();
+			if(pedido.getPedidoUsuario().equals(usuario.get())){
+				return ResponseEntity.ok().body(ItemPedidoDTO.convert(item.get()));
 			}
 		}
-		List<Carrinho> carrinhos = repositoryCarrinho.findAllByCarrinhoUsuario(usuario.get());
-		return ResponseEntity.ok().body(ItemCarrinhoDTO.convertList(repository.findByCarrinhoIn(carrinhos)));
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
-	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-}*/
-	//adicionar um novo item
-	//deletar um item
-	//atualizar um item
-	//pegar um unico item
-	//pegar itens pedidos por produtos -> nome do produto
-	//pegar itens pedidos por produtos -> categoria do produto
 	
 }

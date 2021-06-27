@@ -34,7 +34,7 @@ public class ItemCarrinhoService {
 
 	@Autowired
 	private ProdutoRepository repositoryProduto;
-
+	
 	// Pegar todos os itens de um usuário
 	public ResponseEntity<List<ItemCarrinhoDTO>> getAll(String token, Optional<Long> idCarrinho) {
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);

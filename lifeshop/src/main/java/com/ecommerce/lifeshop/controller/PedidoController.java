@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.lifeshop.model.ItemPedido;
-import com.ecommerce.lifeshop.model.Pedido;
+import com.ecommerce.lifeshop.model.PedidoDTO;
 import com.ecommerce.lifeshop.service.PedidoService;
 
 @RestController
@@ -24,22 +23,17 @@ public class PedidoController {
 	private PedidoService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Pedido>> getAll(@RequestHeader("Authorization") String token){
+	public ResponseEntity<List<PedidoDTO>> getAll(@RequestHeader("Authorization") String token){
 		return service.getAll(token);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> getPedido(@RequestHeader("Authorization") String token, @PathVariable Long id){
+	public ResponseEntity<PedidoDTO> getPedido(@RequestHeader("Authorization") String token, @PathVariable Long id){
 		return service.getPedido(token, id);
 	}
 	
-	@GetMapping("/item/{id}")
-	public ResponseEntity<List<ItemPedido>> getItensPedido(@RequestHeader("Authorization") String token, @PathVariable Long id){
-		return service.getItensPedido(token, id);
-	}
-	
 	@PostMapping
-	public ResponseEntity<Pedido> postPedido(@RequestHeader("Authorization") String token){
+	public ResponseEntity<PedidoDTO> postPedido(@RequestHeader("Authorization") String token){
 		return service.postPedido(token);
 	}
 	

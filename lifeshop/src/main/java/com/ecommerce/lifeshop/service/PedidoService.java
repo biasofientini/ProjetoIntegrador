@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.lifeshop.model.ItemPedido;
 import com.ecommerce.lifeshop.model.Pedido;
+import com.ecommerce.lifeshop.model.PedidoDTO;
 import com.ecommerce.lifeshop.model.Usuario;
 import com.ecommerce.lifeshop.repository.PedidoRepository;
 import com.ecommerce.lifeshop.repository.UsuarioRepository;
@@ -23,22 +23,22 @@ public class PedidoService {
 	@Autowired
 	private UsuarioRepository repositoryUsuario;
 
-	//pegar todos os pedidos de um usuario
-	public ResponseEntity<List<Pedido>> getAll(String token){
+	//pegar todos os pedidos de um usuario | ok
+	public ResponseEntity<List<PedidoDTO>> getAll(String token){
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
 		if(usuario.isPresent()) {
-			return ResponseEntity.ok().body(repository.findAllByPedidoUsuario(usuario.get()));
+			return ResponseEntity.ok().body(PedidoDTO.convertList(repository.findAllByPedidoUsuario(usuario.get())));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	
-	//pegar um pedido especifico de um usuario -> idPedido
-	public ResponseEntity<Pedido> getPedido(String token, Long id){
+	//pegar um pedido especifico de um usuario -> idPedido | ok
+	public ResponseEntity<PedidoDTO> getPedido(String token, Long id){
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
 		Optional<Pedido> pedido = repository.findById(id);
 		if(usuario.isPresent()) {
 			if(pedido.isPresent() && pedido.get().getPedidoUsuario().equals(usuario.get())) {
-				return ResponseEntity.ok().body(pedido.get());
+				return ResponseEntity.ok().body(PedidoDTO.convert(pedido.get()));
 			} else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 			}
@@ -46,32 +46,18 @@ public class PedidoService {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}	
 	
-	//criar novo pedido
-	public ResponseEntity<Pedido> postPedido(String token){
+	//criar novo pedido | ok
+	public ResponseEntity<PedidoDTO> postPedido(String token){
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
 		if(usuario.isPresent()) {
 			Pedido pedido = new Pedido();
 			pedido.setPedidoUsuario(usuario.get());
-			return ResponseEntity.ok().body(repository.save(pedido));
+			return ResponseEntity.ok().body(PedidoDTO.convert(repository.save(pedido)));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
-	
-	//Pegar itens pedidos de um pedido especifico
-	public ResponseEntity<List<ItemPedido>> getItensPedido(String token, Long id){
-		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
-		Optional<Pedido> pedido = repository.findById(id);
-		if(usuario.isPresent()) {
-			if(pedido.isPresent() && pedido.get().getPedidoUsuario().equals(usuario.get())) {
-				return ResponseEntity.ok().body(pedido.get().getItens());
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-			}
-		}
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-	}
-	
-	//deletar um pedido
+
+	//deletar um pedido | ok
 	public ResponseEntity<Object> deletePedido(String token, Long id){
 		Optional<Usuario> usuario = repositoryUsuario.findByToken(token);
 		Optional<Pedido> pedido = repository.findById(id);
@@ -89,4 +75,5 @@ public class PedidoService {
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
+
 }
