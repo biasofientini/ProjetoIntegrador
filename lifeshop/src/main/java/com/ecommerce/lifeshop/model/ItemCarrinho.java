@@ -10,13 +10,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-@Table(name = "tb_itens")
-public class Item {
+@Table(name = "tb_item_carrinho")
+public class ItemCarrinho {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idItem;
+	private Long idItemCarrinho;
 
 	@NotNull
 	private Integer qtdProduto;
@@ -27,15 +29,16 @@ public class Item {
 
 	@ManyToOne
 	@JoinColumn(name = "carrinho_id")
+	@JsonIgnoreProperties("itens")
 	private Carrinho carrinho;
 
 	// Id
-	public Long getIdItem() {
-		return idItem;
+	public Long getIdItemCarrinho() {
+		return idItemCarrinho;
 	}
 
-	public void setIdItem(Long idItem) {
-		this.idItem = idItem;
+	public void setIdItemCarrinho(Long idItem) {
+		this.idItemCarrinho = idItem;
 	}
 
 	// QtdProduto

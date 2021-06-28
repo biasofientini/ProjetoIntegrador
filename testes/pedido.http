@@ -1,0 +1,21 @@
+###
+http://localhost:8080/lifeshop
+
+
+###
+GET http://localhost:8080/produto
+
+
+
+// por id: {{url}}/produto/{id}
+// por descricao: {{url}}/produto?descrica
+
+// rota incial: {{url}}/lifeshop
+// todos os produtos: {{url}}/produto
+// por id: {{url}}/produto/{id}
+// por descricao: {{url}}/produto?descricao=""
+
+// POST -> novo produto: {{url}}/produto
+
+// https://www.youtube.com/watch?v=FCC2GbStmfc
+// o video, começa em 10:40

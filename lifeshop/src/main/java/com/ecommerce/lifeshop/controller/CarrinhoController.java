@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.lifeshop.model.Carrinho;
+import com.ecommerce.lifeshop.model.ItemCarrinho;
 import com.ecommerce.lifeshop.service.CarrinhoService;
 
 @RestController
@@ -30,6 +31,11 @@ public class CarrinhoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Carrinho> getCart(@RequestHeader("Authorization") String token, @PathVariable Long id) {
 		return service.getCart(token, id);
+	}
+	
+	@GetMapping("/item/{id}")
+	public ResponseEntity<List<ItemCarrinho>> getItensCarrinho(@RequestHeader("Authorization") String token, @PathVariable Long id){
+		return service.getItensCarrinho(token, id);
 	}
 
 	@PostMapping

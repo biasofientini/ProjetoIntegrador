@@ -29,7 +29,15 @@ public class Carrinho {
 	
 	@OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("carrinho")
-	private List<Item> itens;
+	private List<ItemCarrinho> itens;
+	
+	public List<ItemCarrinho> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemCarrinho> itens) {
+		this.itens = itens;
+	}
 
 	public Long getIdCarrinho() {
 		return idCarrinho;

@@ -40,18 +40,18 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/role/{id_role}")
-	public ResponseEntity<Usuario> postUser(@Valid @RequestBody Usuario usuario,
+	public ResponseEntity<UsuarioDTO> postUser(@Valid @RequestBody Usuario usuario,
 			@PathVariable(value = "id_role") Long idRole) {
 		return service.postUsuario(usuario, idRole);
 	}
 
 	@PostMapping
-	public ResponseEntity<Usuario> logUser(@Valid @RequestBody UsuarioDTO usuario) {
+	public ResponseEntity<UsuarioDTO> logUser(@Valid @RequestBody UsuarioDTO usuario) {
 		return service.LogarUsuario(usuario);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> putUser(@RequestHeader("Authorization") String token, @Valid @RequestBody Usuario usuario, @PathVariable Long id) {
+	public ResponseEntity<UsuarioDTO> putUser(@RequestHeader("Authorization") String token, @Valid @RequestBody Usuario usuario, @PathVariable Long id) {
 		return service.updateUsuario(token, usuario, id);
 	}
 

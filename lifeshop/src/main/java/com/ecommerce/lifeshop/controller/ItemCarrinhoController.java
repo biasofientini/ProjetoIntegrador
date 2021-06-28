@@ -1,6 +1,8 @@
 package com.ecommerce.lifeshop.controller;
 
 import java.util.List;
+
+
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,37 +20,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.lifeshop.model.Item;
-import com.ecommerce.lifeshop.model.ItemDTO;
-import com.ecommerce.lifeshop.service.ItemService;
+import com.ecommerce.lifeshop.model.ItemCarrinhoDTO;
+import com.ecommerce.lifeshop.service.ItemCarrinhoService;
 
 @RestController
 @RequestMapping("/item")
-public class ItemController {
+public class ItemCarrinhoController {
 
 	@Autowired
-	private ItemService service;
+	private ItemCarrinhoService service;
 
 	@GetMapping
-	public ResponseEntity<List<Item>> getAll(@RequestHeader("Authorization") String token,
+	public ResponseEntity<List<ItemCarrinhoDTO>> getAll(@RequestHeader("Authorization") String token,
 			@RequestParam("idCarrinho") Optional<Long> idCarrinho) {
 		return service.getAll(token, idCarrinho);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Item> getItem(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+	public ResponseEntity<ItemCarrinhoDTO> getItem(@RequestHeader("Authorization") String token, @PathVariable Long id) {
 		return service.getItem(token, id);
 	}
 
 	@PostMapping
-	public ResponseEntity<Item> postItem(@RequestHeader("Authorization") String token,
-			@Valid @RequestBody ItemDTO itemdto) {
+	public ResponseEntity<ItemCarrinhoDTO> postItem(@RequestHeader("Authorization") String token,
+			@Valid @RequestBody ItemCarrinhoDTO itemdto) {
 		return service.postItem(token, itemdto);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Item> putItem(@RequestHeader("Authorization") String token, @PathVariable Long id,
-			@Valid @RequestBody ItemDTO itemdto) {
+	public ResponseEntity<ItemCarrinhoDTO> putItem(@RequestHeader("Authorization") String token, @PathVariable Long id,
+			@Valid @RequestBody ItemCarrinhoDTO itemdto) {
 		return service.putItem(token, id, itemdto);
 	}
 

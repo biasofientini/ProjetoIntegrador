@@ -30,45 +30,42 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank(message = "Erro nome não pode estar em branco")
-	@Size (min = 3, max = 45, message = "Erro tamanho nome usuário")
+	@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
 	private String nome;
-	
-	
+
 	@NotBlank(message = "Erro email não pode estar em branco")
 	@Email(message = "Erro email não válido")
 	private String email;
-	
+
 	@NotBlank(message = "Erro senha não pode estar em branco")
-	@Size (min = 8, message = "Erro tamanho senha usuário")
+	@Size(min = 8, message = "Erro tamanho senha usuário")
 	private String senha;
-	
-	
+
 	@NotBlank(message = "Erro endereço não pode estar em branco")
 	private String endereco;
-	
+
 	@NotBlank(message = "Erro cep não pode estar em branco")
-	@Size(min = 8, max= 8, message = "Erro tamanho cep usuário")
+	@Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
 	private String cep;
 
 	@NotNull(message = "Erro pontuação não deve estar nula")
-    private Integer pontuacao;
-	
-	private String token;
-    
-	@OneToMany(mappedBy = "carrinhoUsuario", cascade = CascadeType.ALL)
-	private List<Carrinho> carrinho = new ArrayList<>(); 
-	
+	private Integer pontuacao;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(joinColumns = @JoinColumn(
-	          name = "usuario_id", referencedColumnName = "id"), 
-	        inverseJoinColumns = @JoinColumn(
-	          name = "role_id", referencedColumnName = "id")) 
+	private String token;
+
+	/*@OneToMany(mappedBy = "pedidoUsuario", cascade = CascadeType.ALL)
+	private List<Pedido> pedido = new ArrayList<>();*/
+
+	@OneToMany(mappedBy = "carrinhoUsuario", cascade = CascadeType.ALL)
+	private List<Carrinho> carrinho = new ArrayList<>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	@JsonIgnoreProperties("usuarios")
-    private Set<Role> roles = new HashSet<>();
-	
+	private Set<Role> roles = new HashSet<>();
+
 	// Token
 	public String getToken() {
 		return token;
