@@ -1,0 +1,14 @@
+1 - Acessar o gitpod no repositorio
+2 - Abrir o terminal e executar:
+    sudo apt-get update
+    sudo apt-get install mysql-client
+    docker pull mysql:5.7
+    docker run -e MYSQL_ROOT_PASSWORD=root --name mysql-container -d -p 3306:3306 mysql:5.7
+3 - Instalar as extensões:
+    Maven for Java
+    Language Support for Java(TM) by Red Hat
+    Project Manager for Java
+    Code Runner
+    Spring Boot Extension Pack
+4 - Na aba files, rodar o projeto via Spring boot dashboard
+OBS: se der errado, drop mysql-container usando "docker rm -f mysql-container"
