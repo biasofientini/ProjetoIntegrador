@@ -31,29 +31,31 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "Erro nome não pode estar em branco")
-	@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
+	//@NotBlank(message = "Erro nome não pode estar em branco")
+	//@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
 	private String nome;
 
-	@NotBlank(message = "Erro email não pode estar em branco")
-	@Email(message = "Erro email não válido")
+	//@NotBlank(message = "Erro email não pode estar em branco")
+	//@Email(message = "Erro email não válido")
 	private String email;
 
-	@NotBlank(message = "Erro senha não pode estar em branco")
-	@Size(min = 8, message = "Erro tamanho senha usuário")
+	//@NotBlank(message = "Erro senha não pode estar em branco")
+	//@Size(min = 8, message = "Erro tamanho senha usuário")
 	private String senha;
 
-	@NotBlank(message = "Erro endereço não pode estar em branco")
+	//@NotBlank(message = "Erro endereço não pode estar em branco")
 	private String endereco;
 
-	@NotBlank(message = "Erro cep não pode estar em branco")
-	@Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
+	//@NotBlank(message = "Erro cep não pode estar em branco")
+	//@Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
 	private String cep;
 
-	@NotNull(message = "Erro pontuação não deve estar nula")
+	//@NotNull(message = "Erro pontuação não deve estar nula")
 	private Integer pontuacao;
 
 	private String token;
+	
+	private String telefone;
 
 	/*@OneToMany(mappedBy = "pedidoUsuario", cascade = CascadeType.ALL)
 	private List<Pedido> pedido = new ArrayList<>();*/
@@ -154,6 +156,14 @@ public class Usuario {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 }

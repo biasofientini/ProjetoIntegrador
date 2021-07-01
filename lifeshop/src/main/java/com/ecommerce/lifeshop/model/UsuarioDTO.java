@@ -14,12 +14,21 @@ public class UsuarioDTO {
 	
 	public String token;
 	
+	public String telefone;
+	
+	public String cep;
+	
+	public String endereco;
+	
 	public static UsuarioDTO convert(Usuario usuario) {
 		UsuarioDTO usuariodto = new UsuarioDTO();
 		usuariodto.nome = usuario.getNome();
 		usuariodto.email = usuario.getEmail();
 		usuariodto.senha = usuario.getSenha();
 		usuariodto.token = usuario.getToken();
+		usuariodto.cep = usuario.getCep();
+		usuariodto.telefone = usuario.getTelefone();
+		usuariodto.endereco = usuario.getEndereco();
 		return usuariodto;
 	}
 	
