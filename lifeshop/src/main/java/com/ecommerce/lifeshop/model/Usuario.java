@@ -46,16 +46,22 @@ public class Usuario {
 	//@NotBlank(message = "Erro endereço não pode estar em branco")
 	private String endereco;
 
-	//@NotBlank(message = "Erro cep não pode estar em branco")
-	//@Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
-	private String cep;
-
 	//@NotNull(message = "Erro pontuação não deve estar nula")
 	private Integer pontuacao;
+  
+	//@NotBlank(message = "Erro cep não pode estar em branco")
+	//@Size(min = 9, max = 9, message = "Erro tamanho cep usuário")
+	private String cep;
+	
+	//@NotBlank(message = "Erro telefone não pode estar em branco")
+	//@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
+	private String telefone;
+	
+	//@NotBlank
+	//@Size(min = 14, max = 14, message = "Erro tamanho telefone usuário")
+	private String cpf;
 
 	private String token;
-	
-	private String telefone;
 
 	/*@OneToMany(mappedBy = "pedidoUsuario", cascade = CascadeType.ALL)
 	private List<Pedido> pedido = new ArrayList<>();*/
@@ -138,6 +144,15 @@ public class Usuario {
 
 	public void setCarrinho(List<Carrinho> carrinho) {
 		this.carrinho = carrinho;
+	}
+	
+	//CPF
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	// Pontuacao
