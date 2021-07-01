@@ -62,7 +62,6 @@ public class UsuarioService {
 		Optional<Usuario> user = repository.findByEmail(usuariodto.email);
 		Optional<Role> role = repositoryR.findById(idRole);
 		if (!user.isPresent() && !role.isEmpty()) {
-			System.out.println("morango");
 			System.out.println(idRole);
 			Usuario usuario = new Usuario();
 			usuario.setCep(usuariodto.cep);
