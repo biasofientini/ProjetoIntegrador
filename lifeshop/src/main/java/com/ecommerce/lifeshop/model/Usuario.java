@@ -145,15 +145,6 @@ public class Usuario {
 	public void setCarrinho(List<Carrinho> carrinho) {
 		this.carrinho = carrinho;
 	}
-
-	//Telefone
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
 	
 	//CPF
 	public String getCpf() {

@@ -42,7 +42,6 @@ public class UsuarioController {
 	@PostMapping("/role/{id_role}")
 	public ResponseEntity<UsuarioDTO> postUser(@Valid @RequestBody UsuarioDTO usuario,
 			@PathVariable(value = "id_role") Long idRole) {
-		System.out.println("chocolate");
 		return service.postUsuario(usuario, idRole);
 	}
 
