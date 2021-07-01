@@ -15,13 +15,10 @@ import com.ecommerce.lifeshop.service.RoleService;
 @RequestMapping("/lifeshop")
 public class LifeshopApplication {
 
-	
 	@Autowired
 	private RoleService serviceR;
 	
 	//esse GetMapping será o do servidor onde iremos subir nossa api
-	//teste fofo :)
-	//blz
 	@GetMapping
 	public void setRoles() {
 		serviceR.saveRoles();
