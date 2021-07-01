@@ -50,8 +50,18 @@ public class Usuario {
 	@Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
 	private String cep;
 
-	@NotNull(message = "Erro pontuação não deve estar nula")
-	private Integer pontuacao;
+	@NotNull(message = "Erro telefone não pode estar em branco")
+	
+	@NotBlank
+	@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
+	private String telefone;
+	
+	@NotBlank
+	@Size(min = 11, max = 11, message = "Erro tamanho telefone usuário")
+	private String cpf;
+	
+	
+	private Integer pontuacao = 0;
 
 	private String token;
 
@@ -136,6 +146,24 @@ public class Usuario {
 
 	public void setCarrinho(List<Carrinho> carrinho) {
 		this.carrinho = carrinho;
+	}
+
+	//Telefone
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	
+	//CPF
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	// Pontuacao
