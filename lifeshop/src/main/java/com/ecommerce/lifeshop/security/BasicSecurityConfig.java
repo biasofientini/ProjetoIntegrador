@@ -21,7 +21,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service);
+    	auth.userDetailsService(service);
         
         //auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).authorities("ROLE_ADMIN");
         //Usar para logar o primeiro usuário como administrador passando essa role para ele e dar inicio ao sistema

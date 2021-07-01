@@ -31,36 +31,35 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "Erro nome não pode estar em branco")
-	@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
+	//@NotBlank(message = "Erro nome não pode estar em branco")
+	//@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
 	private String nome;
 
-	@NotBlank(message = "Erro email não pode estar em branco")
-	@Email(message = "Erro email não válido")
+	//@NotBlank(message = "Erro email não pode estar em branco")
+	//@Email(message = "Erro email não válido")
 	private String email;
 
-	@NotBlank(message = "Erro senha não pode estar em branco")
-	@Size(min = 8, message = "Erro tamanho senha usuário")
+	//@NotBlank(message = "Erro senha não pode estar em branco")
+	//@Size(min = 8, message = "Erro tamanho senha usuário")
 	private String senha;
 
-	@NotBlank(message = "Erro endereço não pode estar em branco")
+	//@NotBlank(message = "Erro endereço não pode estar em branco")
 	private String endereco;
 
-	@NotBlank(message = "Erro cep não pode estar em branco")
-	@Size(min = 9, max = 9, message = "Erro tamanho cep usuário")
+	//@NotNull(message = "Erro pontuação não deve estar nula")
+	private Integer pontuacao;
+  
+	//@NotBlank(message = "Erro cep não pode estar em branco")
+	//@Size(min = 9, max = 9, message = "Erro tamanho cep usuário")
 	private String cep;
-
 	
-	@NotBlank(message = "Erro telefone não pode estar em branco")
-	@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
+	//@NotBlank(message = "Erro telefone não pode estar em branco")
+	//@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
 	private String telefone;
 	
-	@NotBlank
-	@Size(min = 14, max = 14, message = "Erro tamanho telefone usuário")
+	//@NotBlank
+	//@Size(min = 14, max = 14, message = "Erro tamanho telefone usuário")
 	private String cpf;
-	
-	
-	private Integer pontuacao = 0;
 
 	private String token;
 
@@ -181,6 +180,14 @@ public class Usuario {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 }

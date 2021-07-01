@@ -58,10 +58,20 @@ public class UsuarioService {
 	}
 
 	// cadastro
-	public ResponseEntity<UsuarioDTO> postUsuario(Usuario usuario, Long idRole) {
-		Optional<Usuario> user = repository.findByEmail(usuario.getEmail());
+	public ResponseEntity<UsuarioDTO> postUsuario(UsuarioDTO usuariodto, Long idRole) {
+		Optional<Usuario> user = repository.findByEmail(usuariodto.email);
 		Optional<Role> role = repositoryR.findById(idRole);
 		if (!user.isPresent() && !role.isEmpty()) {
+			System.out.println("morango");
+			System.out.println(idRole);
+			Usuario usuario = new Usuario();
+			usuario.setCep(usuariodto.cep);
+			usuario.setEmail(usuariodto.email);
+			usuario.setTelefone(usuariodto.telefone);
+			usuario.setNome(usuariodto.nome);
+			usuario.setEndereco(usuariodto.endereco);
+			usuario.setSenha(usuariodto.senha);
+			usuario.setPontuacao(0);
 			usuario.getRoles().add(role.get());
 			String senhaEncoder = encoder.encode(usuario.getSenha());
 			usuario.setSenha(senhaEncoder);

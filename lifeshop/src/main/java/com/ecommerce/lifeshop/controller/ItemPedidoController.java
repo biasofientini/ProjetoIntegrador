@@ -27,6 +27,3 @@ public class ItemPedidoController {
         return service.getAll(token, idPedido);
     }
 }
-// falta mais o que ? 
-//acho que ta certo, só tá dando erro pra mim no ItemPedidoDTO e PedidoController
-// vou ver o ItemPedidoDTO ok
