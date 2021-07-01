@@ -34,7 +34,6 @@ public class Role implements GrantedAuthority{
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("roles")
-
 	private Set<Usuario> usuarios = new HashSet<>();
 	
 	//construtor usado na LifeshopApplication.java para inicializar a aplicação alimentando a tabela ROLE
