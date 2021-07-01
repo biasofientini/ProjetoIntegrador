@@ -47,17 +47,16 @@ public class Usuario {
 	private String endereco;
 
 	@NotBlank(message = "Erro cep não pode estar em branco")
-	@Size(min = 8, max = 8, message = "Erro tamanho cep usuário")
+	@Size(min = 9, max = 9, message = "Erro tamanho cep usuário")
 	private String cep;
 
-	@NotNull(message = "Erro telefone não pode estar em branco")
 	
-	@NotBlank
+	@NotBlank(message = "Erro telefone não pode estar em branco")
 	@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
 	private String telefone;
 	
 	@NotBlank
-	@Size(min = 11, max = 11, message = "Erro tamanho telefone usuário")
+	@Size(min = 14, max = 14, message = "Erro tamanho telefone usuário")
 	private String cpf;
 	
 	
