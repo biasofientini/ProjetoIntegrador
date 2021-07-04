@@ -1,6 +1,5 @@
 package com.ecommerce.lifeshop.model;
 
-
 import java.util.HashSet;
 
 import java.util.Set;
@@ -29,49 +28,42 @@ public class Role implements GrantedAuthority{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique = true) //incluindo sempre mais um role repetido na tb_role
+	@Column(unique = true) 
 	private String role;
 	
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("roles")
-	private Set<Usuario> usuarios = new HashSet<>();
+	private Set<User> users = new HashSet<>();
 	
-	//construtor usado na LifeshopApplication.java para inicializar a aplicação alimentando a tabela ROLE
+	public Role() {}
+	
 	public Role(String role) {
 		this.role = role;
 	}
-	
-	//obrigatório ter esse construtor vazio, porque do construtor anterior que recebe um parametro
-	public Role() {}
 	
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Set<Usuario> getUsuarios() {
-		return usuarios;
+	public Set<User> getUsers() {
+		return users;
 	}
-
 
 	public String getRole() {
 		return role;
 	}
 
-
 	public void setRole(String role) {
 		this.role = role;
 	}
 
-
-	public void setUsuarios(Set<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setUsuarios(Set<User> users) {
+		this.users = users;
 	}
-
 
 	@Override
 	public String getAuthority() {
