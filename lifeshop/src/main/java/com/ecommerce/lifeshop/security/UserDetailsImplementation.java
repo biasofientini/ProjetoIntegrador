@@ -1,7 +1,7 @@
 package com.ecommerce.lifeshop.security;
 
 import com.ecommerce.lifeshop.model.Role;
-import com.ecommerce.lifeshop.model.Usuario;
+import com.ecommerce.lifeshop.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,9 +18,9 @@ public class UserDetailsImplementation implements UserDetails, Serializable {
 
     
 
-    public UserDetailsImplementation(Usuario usuario) {
+    public UserDetailsImplementation(User usuario) {
         this.email = usuario.getEmail();
-        this.password = usuario.getSenha();
+        this.password = usuario.getPassword();
         this.roles = usuario.getRoles();
   
     }
