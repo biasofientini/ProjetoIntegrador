@@ -61,7 +61,7 @@ public class Role implements GrantedAuthority{
 		this.role = role;
 	}
 
-	public void setUsuarios(Set<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 
