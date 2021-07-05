@@ -32,7 +32,7 @@ public class CartItemController {
 
 	@GetMapping
 	public ResponseEntity<List<CartItemDTO>> getAll(@RequestHeader("Authorization") String token,
-			@RequestParam("id") Optional<Long> id) {
+			@RequestParam("idCart") Optional<Long> id) {
 		return service.getAll(token, id);
 	}
 
