@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.lifeshop.model.Cart;
+import com.ecommerce.lifeshop.model.CartDTO;
 import com.ecommerce.lifeshop.model.CartItem;
 import com.ecommerce.lifeshop.model.User;
 import com.ecommerce.lifeshop.repository.CartRepository;
@@ -24,30 +25,30 @@ public class CartService {
 	@Autowired
 	private UserRepository repositoryUser;
 
-	public ResponseEntity<List<Cart>> findAll(String token) {
+	public ResponseEntity<List<CartDTO>> findAll(String token) {
 		Optional<User> user = repositoryUser.findByToken(token);
 		if (user.isPresent()) {
-			return ResponseEntity.ok().body(repository.findAllByUserCart(user.get()));
+			return ResponseEntity.ok().body(CartDTO.convertList(repository.findAllByUserCart(user.get())));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
-	public ResponseEntity<Cart> postCart(String token) {
+	public ResponseEntity<CartDTO> postCart(String token) {
 		Optional<User> user = repositoryUser.findByToken(token);
 		if (user.isPresent()) {
 			Cart cart = new Cart();
 			cart.setUserCart(user.get());
-			return ResponseEntity.ok().body(repository.save(cart));
+			return ResponseEntity.ok().body(CartDTO.convert(repository.save(cart)));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
-	public ResponseEntity<Cart> getCart(String token, Long id) {
+	public ResponseEntity<CartDTO> getCart(String token, Long id) {
 		Optional<User> user = repositoryUser.findByToken(token);
 		Optional<Cart> cart = repository.findById(id);
 		if (user.isPresent()) {
 			if(cart.isPresent() && cart.get().getUserCart().equals(user.get())) {
-				return ResponseEntity.ok().body(cart.get());
+				return ResponseEntity.ok().body(CartDTO.convert(cart.get()));
 			} else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 			}

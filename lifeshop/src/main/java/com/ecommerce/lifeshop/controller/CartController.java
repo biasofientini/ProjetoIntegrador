@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.lifeshop.model.Cart;
+import com.ecommerce.lifeshop.model.CartDTO;
 import com.ecommerce.lifeshop.model.CartItem;
 import com.ecommerce.lifeshop.service.CartService;
 
@@ -24,12 +24,12 @@ public class CartController {
 	private CartService service;
 
 	@GetMapping
-	public ResponseEntity<List<Cart>> findAll(@RequestHeader("Authorization") String token) {
+	public ResponseEntity<List<CartDTO>> findAll(@RequestHeader("Authorization") String token) {
 		return service.findAll(token);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cart> getCart(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+	public ResponseEntity<CartDTO> getCart(@RequestHeader("Authorization") String token, @PathVariable Long id) {
 		return service.getCart(token, id);
 	}
 	
@@ -39,7 +39,7 @@ public class CartController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cart> postCart(@RequestHeader("Authorization") String token) {
+	public ResponseEntity<CartDTO> postCart(@RequestHeader("Authorization") String token) {
 		return service.postCart(token);
 	}
 
