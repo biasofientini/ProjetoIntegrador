@@ -11,6 +11,8 @@ public class OrderDTO {
     public Long userId;
     
     public Date date;
+    
+    public Float finalPrice;
 
     public static OrderDTO convert(Order order) {
         OrderDTO orderdto = new OrderDTO();
