@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LifeshopApplication<lifeshop>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.ecommerce.lifeshop.LifeshopApplication",
+            "projectName": "lifeshop",
+            "args": ""
+        }
+    ]
+}
