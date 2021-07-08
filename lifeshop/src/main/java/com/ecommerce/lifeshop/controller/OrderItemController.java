@@ -23,7 +23,7 @@ public class OrderItemController {
     private OrderItemService service;
     
     @GetMapping
-    public ResponseEntity<List<OrderItemDTO>> getAll(@RequestHeader("Authorization") String token, @RequestParam("id") Optional<Long> id){
+    public ResponseEntity<List<OrderItemDTO>> getAll(@RequestHeader("Authorization") String token, @RequestParam("idOrder") Optional<Long> id){
         return service.getAll(token, id);
     }
 }
