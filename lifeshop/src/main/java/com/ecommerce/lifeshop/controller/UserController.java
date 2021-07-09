@@ -33,10 +33,15 @@ public class UserController {
 	public ResponseEntity<List<User>> getAllUsers(@RequestParam("name") Optional<String> name) {
 		return service.findAllUser(name);
 	}
-
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
-		return service.findUserById(id);
+		return service.findUser(id);
+	}
+
+	@GetMapping("u/{id}")
+	public ResponseEntity<User> getById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+		return service.findUserById(id, token);
 	}
 
 	@PostMapping("/role/{id_role}")

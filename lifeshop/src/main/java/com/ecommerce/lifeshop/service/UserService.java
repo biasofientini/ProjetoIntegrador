@@ -37,9 +37,18 @@ public class UserService {
 		}
 		return ResponseEntity.ok().body(repository.findAll());
 	}
-
-	public ResponseEntity<User> findUserById(Long id) {
+	
+	public ResponseEntity<User> findUser(Long id){
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.status(404).build());
+	}
+
+	public ResponseEntity<User> findUserById(Long id, String token) {
+		Optional<User> user = repository.findById(id);
+		if(user.isPresent() && user.get().getToken().equals(token)) {
+			return ResponseEntity.ok().body(user.get());
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 	}
 
 	public ResponseEntity<List<User>> findUserByName(String name) {

@@ -1,6 +1,7 @@
 package com.ecommerce.lifeshop.service;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import com.ecommerce.lifeshop.model.OrderItem;
@@ -28,7 +29,7 @@ public class OrderItemService {
 	@Autowired
 	private OrderItemRepository repository;
 
-	public ResponseEntity<List<OrderItemDTO>> getAll(String token, Optional<Long> id){
+	public ResponseEntity<List<OrderItemDTO>> getAllByUser(String token, Optional<Long> id){
 		Optional<User> user = repositoryUser.findByToken(token);
 		if(user.isPresent()){
 			if(id.isPresent()){
@@ -43,6 +44,23 @@ public class OrderItemService {
 			return ResponseEntity.ok().body(OrderItemDTO.convertList(repository.findByOrderIn(orders)));
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+	
+	public ResponseEntity<List<OrderItemDTO>> getAll(String token){
+		Optional<User> user = repositoryUser.findByToken(token);
+		if(user.isPresent()) {
+			return ResponseEntity.ok().body(OrderItemDTO.convertList(repository.findAll()));
+		} 
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+	
+	public ResponseEntity<OrderItemDTO> getOrderItem(String token, Long id){
+		Optional<OrderItem> orderitem = repository.findById(id);
+		Optional<User> user = repositoryUser.findByToken(token);
+		if(orderitem.isPresent() && user.isPresent()){
+			return ResponseEntity.ok().body(OrderItemDTO.convert(orderitem.get()));
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 
 	public ResponseEntity<OrderItemDTO> getItem(String token, Long id){

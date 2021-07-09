@@ -31,11 +31,21 @@ public class Order {
 	private User userOrder;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date date;
+	private Date date = new Date();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("order")
 	private List<OrderItem> items;
+	
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Long getId() {
 		return id;

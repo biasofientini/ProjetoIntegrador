@@ -23,7 +23,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     	auth.userDetailsService(service);
         
-        //auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).authorities("ROLE_ADMIN");
+        auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).authorities("ROLE_ADMIN");
         //Usar para logar o primeiro usuário como administrador passando essa role para ele e dar inicio ao sistema
     }
 
@@ -35,27 +35,28 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/lifeshop").permitAll()
                 .antMatchers("/cart/**").permitAll()
         		.antMatchers("/item/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 .antMatchers(HttpMethod.PUT, "/user/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/product/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/u/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/product/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/order/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/orderitem/u/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/orderitem/a/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/order/u/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/order/a/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/order/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                //.and().formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .and().cors()
                 .and().csrf().disable();
-        
-  
-               
-    }
-
+    } 
 }
