@@ -29,11 +29,11 @@ public class OrderItemService {
 	@Autowired
 	private OrderItemRepository repository;
 
-	public ResponseEntity<List<OrderItemDTO>> getAllByUser(String token, Optional<Long> id){
+	public ResponseEntity<List<OrderItemDTO>> getAllByUser(String token, Optional<Long> idOrder){
 		Optional<User> user = repositoryUser.findByToken(token);
 		if(user.isPresent()){
-			if(id.isPresent()){
-				Optional<Order> order = repositoryOrder.findById(id.get());
+			if(idOrder.isPresent()){
+				Optional<Order> order = repositoryOrder.findById(idOrder.get());
 				if(order.isPresent() && order.get().getUserOrder().equals(user.get())){
 					return ResponseEntity.ok().body(OrderItemDTO.convertList(repository.findByOrder(order.get())));
 				} else{
@@ -46,12 +46,9 @@ public class OrderItemService {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	
-	public ResponseEntity<List<OrderItemDTO>> getAll(String token){
-		Optional<User> user = repositoryUser.findByToken(token);
-		if(user.isPresent()) {
-			return ResponseEntity.ok().body(OrderItemDTO.convertList(repository.findAll()));
-		} 
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	public ResponseEntity<List<OrderItemDTO>> getAll(Optional<Long> idOrder){
+        Optional<Order> order = repositoryOrder.findById(idOrder.get());
+        return ResponseEntity.ok().body(OrderItemDTO.convertList(repository.findByOrder(order.get())));
 	}
 	
 	public ResponseEntity<OrderItemDTO> getOrderItem(String token, Long id){

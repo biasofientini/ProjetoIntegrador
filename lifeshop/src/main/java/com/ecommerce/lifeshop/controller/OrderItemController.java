@@ -24,13 +24,13 @@ public class OrderItemController {
     private OrderItemService service;
     
     @GetMapping("/u")
-    public ResponseEntity<List<OrderItemDTO>> getAllByUser(@RequestHeader("Authorization") String token, @RequestParam("idOrder") Optional<Long> id){
-        return service.getAllByUser(token, id);
+    public ResponseEntity<List<OrderItemDTO>> getAllByUser(@RequestHeader("Authorization") String token, @RequestParam("idOrder") Optional<Long> idOrder){
+        return service.getAllByUser(token, idOrder);
     }
     
     @GetMapping("/a")
-    public ResponseEntity<List<OrderItemDTO>> getAll(@RequestHeader("Authorization") String token){
-    	return service.getAll(token);
+    public ResponseEntity<List<OrderItemDTO>> getAll(@RequestParam("idOrder") Optional<Long> idOrder){
+    	return service.getAll(idOrder);
     }
 
     @GetMapping("a/{id}")
