@@ -6,23 +6,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ecommerce.lifeshop.service.RoleService;
 
-
 @SpringBootApplication
 @RestController
-@RequestMapping("/lifeshop")
+@RequestMapping("/")
 public class LifeshopApplication {
 
 	@Autowired
 	private RoleService serviceR;
-	
+
 	@GetMapping
-	public void setRoles() {
+	public ModelAndView swaggerUi() {
 		serviceR.saveRoles();
+		return new ModelAndView("redirect:/swagger-ui/");
 	}
-	
+
 	public static void main(String[] args) {
 
 		SpringApplication.run(LifeshopApplication.class, args);

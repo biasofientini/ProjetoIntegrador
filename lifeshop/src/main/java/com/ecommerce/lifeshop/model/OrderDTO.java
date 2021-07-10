@@ -13,12 +13,15 @@ public class OrderDTO {
     public Date date;
     
     public Float finalPrice;
+    
+    public String status;
 
     public static OrderDTO convert(Order order) {
         OrderDTO orderdto = new OrderDTO();
         orderdto.id = order.getId();
         orderdto.userId = order.getUserOrder().getId();
         orderdto.date = order.getDate();
+        orderdto.status = order.getStatus();
         return orderdto;
     }
 
