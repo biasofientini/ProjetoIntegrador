@@ -115,7 +115,8 @@ public class UserService {
 			userOne.get().setEmail(user.getEmail());
 			userOne.get().setAddress(user.getAddress());
 			userOne.get().setName(user.getName());
-		}
+			userOne.get().setPhone(user.getPhone());	
+			}
 		return ResponseEntity.status(200).body(UserDTO.convert(repository.save(userOne.get())));
 
 	}

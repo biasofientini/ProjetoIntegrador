@@ -113,7 +113,7 @@ public class OrderService {
 
 					repositoryOrderItem.save(orderitem);
 				}
-				Float discount = Math.min(finalPrice, user.get().getPoints()/10);
+				Float discount = Math.min(finalPrice, user.get().getPoints()/10.0f);
 				int usedPoints = discount.intValue() * 10;
 				user.get().setPoints(user.get().getPoints() + finalPrice.intValue() - usedPoints);
 				finalPrice -= discount;
