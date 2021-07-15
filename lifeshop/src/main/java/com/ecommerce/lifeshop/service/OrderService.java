@@ -115,8 +115,8 @@ public class OrderService {
 				}
 				Float discount = Math.min(finalPrice, user.get().getPoints()/10.0f);
 				int usedPoints = discount.intValue() * 10;
-				user.get().setPoints(user.get().getPoints() + finalPrice.intValue() - usedPoints);
 				finalPrice -= discount;
+				user.get().setPoints(user.get().getPoints() + finalPrice.intValue() - usedPoints);
 				OrderDTO orderdto = OrderDTO.convert(repository.save(order));
 				orderdto.finalPrice = finalPrice;
 				return ResponseEntity.ok().body(orderdto);
