@@ -1,6 +1,7 @@
 package com.ecommerce.lifeshop.model;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,30 +32,30 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//@NotBlank(message = "Erro nome não pode estar em branco")
-	//@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
+	@NotBlank(message = "Erro nome não pode estar em branco")
+	@Size(min = 3, max = 45, message = "Erro tamanho nome usuário")
 	private String name;
 
-	//@NotBlank(message = "Erro email não pode estar em branco")
-	//@Email(message = "Erro email não válido")
+	@NotBlank(message = "Erro email não pode estar em branco")
+	@Email(message = "Erro email não válido")
 	private String email;
 
-	//@NotBlank(message = "Erro senha não pode estar em branco")
-	//@Size(min = 8, message = "Erro tamanho senha usuário")
+	@NotBlank(message = "Erro senha não pode estar em branco")
+	@Size(min = 8, message = "Erro tamanho senha usuário")
 	private String password;
 
-	//@NotBlank(message = "Erro endereço não pode estar em branco")
+	@NotBlank(message = "Erro endereço não pode estar em branco")
 	private String address;
 
-	//@NotNull(message = "Erro pontuação não deve estar nula")
+	@NotNull(message = "Erro pontuação não deve estar nula")
 	private Integer points;
   
-	//@NotBlank(message = "Erro cep não pode estar em branco")
-	//@Size(min = 9, max = 9, message = "Erro tamanho cep usuário")
+	@NotBlank(message = "Erro cep não pode estar em branco")
+	@Size(min = 9, max = 9, message = "Erro tamanho cep usuário")
 	private String zipCode;
 	
-	//@NotBlank(message = "Erro telefone não pode estar em branco")
-	//@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
+	@NotBlank(message = "Erro telefone não pode estar em branco")
+	@Size(min = 10, max = 11, message = "Erro tamanho telefone usuário")
 	private String phone;
 
 	private String token;
