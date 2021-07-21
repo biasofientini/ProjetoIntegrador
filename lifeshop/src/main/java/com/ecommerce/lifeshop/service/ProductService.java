@@ -73,6 +73,7 @@ public class ProductService {
 			product.get().setDescription(productdto.description);
 			product.get().setStock(productdto.stock);
 			product.get().setUrlImage(productdto.urlImage);
+			product.get().setCategory(Category.create(productdto.category));
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(ProductDTO.convert(repository.save(product.get())));
 		}
