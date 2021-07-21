@@ -88,14 +88,15 @@ public class OrderService {
 		Optional<User> user = repositoryUser.findByToken(token);
 		Optional<Cart> cart = repositoryCart.findById(idCart);
 		if (user.isPresent() && cart.isPresent() && cart.get().getUserCart().equals(user.get())) {
-			Order order = new Order();
-			order.setUserOrder(user.get());
-			order.setStatus("Em separação");
-			repository.save(order);
 			List<CartItem> cartitems = repositoryCartItem.findByCart(cart.get());
 			HashMap<Long, Integer> counterProducts = groupByProduct(cartitems);
 
-			if(checkStockProducts(counterProducts)){
+            if(checkStockProducts(counterProducts)){
+                Order order = new Order();
+			    order.setUserOrder(user.get());
+			    order.setStatus("Em separação");
+			    repository.save(order);
+                
 				Float finalPrice = 0.0f;
 				for(Map.Entry<Long, Integer> e: counterProducts.entrySet()){
 					Long productId = e.getKey();
